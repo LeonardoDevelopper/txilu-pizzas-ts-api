@@ -1,14 +1,11 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AdminInserts = void 0;
-const account_1 = __importDefault(require("../../models/deliver/account"));
 class AdminInserts {
     constructor() {
         this.randomUUID = require("crypto");
         this.admin = require("../../models/admin/account");
+        this.deliver = require('../../models/deliver/account');
     }
     create_account(name, email, phone, password) {
         return this.admin.create({
@@ -33,7 +30,7 @@ class AdminInserts {
         });
     }
     create_deliver(ID) {
-        return account_1.default.create({
+        return this.deliver.create({
             ID: ID
         })
             .then(() => {

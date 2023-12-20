@@ -1,4 +1,4 @@
-import sequelize from "sequelize"
+import sequelize from 'sequelize'
 import admin from '../models/admin/account'
 import admin_location from '../models/admin/location'
 import client from '../models/client/account'
@@ -18,6 +18,8 @@ import pizza_rate from '../models/pizza/rate'
 client.hasMany(client_local_delivery, {constraint: true})
 client.hasOne(client_cart, {constraint: true})
 client.hasMany(client_favorite_deliver, {constraint: true})
+client.hasMany(client_favorite_pizza, {constraint: true})
+
 client.hasMany(order, {constraint: true})
 client.hasMany(pizza_rate, {constraint: true})
 client.hasMany(deliver_rate, {constraint: true})

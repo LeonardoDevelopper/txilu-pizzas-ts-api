@@ -49,9 +49,9 @@ export class Server {
       return error.message;
     }
   }
-  testDatabaseConnection() : string 
+  async testDatabaseConnection() : Promise<String> 
   {
-      return this.database.testConnection();
+      return await this.database.testConnection();
   }
   buildDatabase(force? : Force) : string {
     return this.database.build(force);

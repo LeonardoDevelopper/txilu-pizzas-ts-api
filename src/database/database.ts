@@ -2,7 +2,7 @@ import { Force } from '../server/server';
 
 export class DataBase {
   private sequelize = require('sequelize')
-  private database : any;
+  public database : any;
   constructor(
     private host : string, 
     private user : string, 
@@ -21,9 +21,9 @@ export class DataBase {
       return this.database
   }
 
-  testConnection() : string 
+  async testConnection() : Promise<string> 
   {
-    return this.database.authenticate()
+    return await this.database.authenticate()
     .then(() => "database synchronously : )")
     .catch((error : Error) => "Error authenticating : (\n" + error.message);
   }

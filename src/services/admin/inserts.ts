@@ -1,9 +1,9 @@
 import { T_ResponseMessage } from "../../assets/types/inserts"
-import deliver from '../../models/deliver/account';
 
 export class AdminInserts {
   private randomUUID = require("crypto");
-  private admin = require("../../models/admin/account")
+  private admin : any = require("../../models/admin/account")
+  private deliver : any = require('../../models/deliver/account');
   
   public create_account(name: string, email: string, phone: string, password: string ) : T_ResponseMessage {
     return this.admin.create({
@@ -28,8 +28,8 @@ export class AdminInserts {
     })
   }
 
-  public create_deliver(ID : string) : ResponseMessage | ResponseMessageError {
-    return deliver.create({
+  public create_deliver(ID : string) : T_ResponseMessage {
+    return this.deliver.create({
       ID : ID
     })
     .then(() => {

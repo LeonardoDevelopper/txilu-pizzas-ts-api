@@ -29,7 +29,7 @@ export default databaseModel.define('DELIVER', {
         type: DataTypes.INTEGER,
         allowNull: false,
         unique: true,
-        defaultValue : "pendding"
+        defaultValue : "000000000"
     },
     PASS_WORD:{
         type: DataTypes.STRING,

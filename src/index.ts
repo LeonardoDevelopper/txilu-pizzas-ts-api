@@ -12,17 +12,21 @@ server.config();
 server.routers();
 
 // create database connection
-export const databaseModel =  server.connectDatabase('localhost', 'root', '1001', 'db_api_TS');
-// test database connection
-server.testDatabaseConnection();
-// build and sync models 
-server.buildDatabase();
+export const databaseModel = server.connectDatabase('localhost', 'root', 'leoDev@924', 'db_api_TS', 'mariadb');
+
+(async () => {
+  // test database connection
+  console.log(await server.testDatabaseConnection());
+  // build and sync models 
+  console.log(await server.buildDatabase({force: true}));
+
+})()
+
+ const admin = new Admin();
+ const client = new Client()
+ const deliver = new Deliver()
+ require('./database/relationships')
 
 // start server
 console.log(server.start());
 
-const admin = new Admin();
-const client = new Client()
-const deliver = new Deliver()
-
-admin.inserts.create_account()

@@ -27,7 +27,7 @@ exports.default = __1.databaseModel.define('DELIVER', {
         type: sequelize_1.DataTypes.INTEGER,
         allowNull: false,
         unique: true,
-        defaultValue: "pendding"
+        defaultValue: "000000000"
     },
     PASS_WORD: {
         type: sequelize_1.DataTypes.STRING,

@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.DeliverUpdates = void 0;
 class DeliverUpdates {
     constructor() {
-        this.deliver = require("../../models/deliver/deliver");
+        this.deliver = require("../../models/deliver/account");
     }
     update_account(ID, photo, name, email, phone, password) {
         return this.deliver.update({
