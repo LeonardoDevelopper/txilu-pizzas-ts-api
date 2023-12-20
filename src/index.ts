@@ -18,7 +18,7 @@ export const databaseModel = server.connectDatabase('localhost', 'root', 'leoDev
   // test database connection
   console.log(await server.testDatabaseConnection());
   // build and sync models 
-  console.log(await server.buildDatabase({force: true}));
+  console.log(await server.buildDatabase());
 
 })()
 
@@ -26,6 +26,10 @@ export const databaseModel = server.connectDatabase('localhost', 'root', 'leoDev
  const client = new Client()
  const deliver = new Deliver()
  require('./database/relationships')
+  admin.inserts.create_deliver("AO000-32-847-00038");
+//admin.inserts.create_account('Loja Cazenga, Cuca', 'txilupizzascazengacuca@gmail.com', 956096907, '1001')
+
+// deliver.update.update_account('Loja Cazenga, Cuca', 'txilupizzascazengacuca@gmail.com', "956096907", '1001', "9924893", "fsdfs")
 
 // start server
 console.log(server.start());

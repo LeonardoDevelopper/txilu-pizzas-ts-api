@@ -1,15 +1,16 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AdminInserts = void 0;
+const { randomUUID } = require("crypto");
 class AdminInserts {
     constructor() {
-        this.randomUUID = require("crypto");
+        this.UUID = randomUUID;
         this.admin = require("../../models/admin/account");
         this.deliver = require('../../models/deliver/account');
     }
     create_account(name, email, phone, password) {
         return this.admin.create({
-            ID: this.randomUUID(),
+            ID: this.UUID(),
             NAME: name,
             EMAIL: email,
             PHONE_NUMBER: phone,

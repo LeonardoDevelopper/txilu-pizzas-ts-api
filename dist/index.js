@@ -27,11 +27,14 @@ exports.databaseModel = server.connectDatabase('localhost', 'root', 'leoDev@924'
     // test database connection
     console.log(yield server.testDatabaseConnection());
     // build and sync models 
-    console.log(yield server.buildDatabase({ force: true }));
+    console.log(yield server.buildDatabase());
 }))();
 const admin = new admin_1.Admin();
 const client = new client_1.Client();
 const deliver = new deliver_1.Deliver();
 require('./database/relationships');
+admin.inserts.create_deliver("AO000-32-847-00038");
+//admin.inserts.create_account('Loja Cazenga, Cuca', 'txilupizzascazengacuca@gmail.com', 956096907, '1001')
+// deliver.update.update_account('Loja Cazenga, Cuca', 'txilupizzascazengacuca@gmail.com', "956096907", '1001', "9924893", "fsdfs")
 // start server
 console.log(server.start());

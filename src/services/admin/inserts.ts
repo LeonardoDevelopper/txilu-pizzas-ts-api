@@ -1,13 +1,13 @@
 import { T_ResponseMessage } from "../../assets/types/inserts"
-
+const { randomUUID } = require("crypto");
 export class AdminInserts {
-  private randomUUID = require("crypto");
+  private UUID = randomUUID
   private admin : any = require("../../models/admin/account")
   private deliver : any = require('../../models/deliver/account');
   
-  public create_account(name: string, email: string, phone: string, password: string ) : T_ResponseMessage {
+  public create_account(name: string, email: string, phone: number, password: string ) : T_ResponseMessage {
     return this.admin.create({
-      ID: this.randomUUID(),
+      ID: this.UUID(),
       NAME: name,
       EMAIL: email, 
       PHONE_NUMBER: phone,
