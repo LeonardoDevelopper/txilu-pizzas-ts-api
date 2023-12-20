@@ -1,11 +1,11 @@
-import { ResponseMessage, ResponseMessageError } from '../../assets/interface/inserts';
-import deliver from '../../models/deliver/deliver';
+import { T_ResponseMessage } from "../../assets/types/inserts"
+import deliver from '../../models/deliver/account';
 
 export class AdminInserts {
   private randomUUID = require("crypto");
-  private admin = require("../../models/admin/admin")
+  private admin = require("../../models/admin/account")
   
-  public create_account(name: string, email: string, phone: string, password: string ) : ResponseMessage | ResponseMessageError {
+  public create_account(name: string, email: string, phone: string, password: string ) : T_ResponseMessage {
     return this.admin.create({
       ID: this.randomUUID(),
       NAME: name,

@@ -1,11 +1,10 @@
-import { ResponseMessage, ResponseMessageError } from '../../assets/interface/inserts';
+import { T_ResponseMessage } from "../../assets/types/inserts"
 
 export class ClientInserts {
-
   private randomUUID = require("crypto");
-  private client : any = require("../../models/client/client");
+  private client : any = require("../../models/client/account");
   
-  public create_account(name: string, email: string, phone: string, password: string ) : ResponseMessage | ResponseMessageError {
+  public create_account(name: string, email: string, phone: string, password: string ) : T_ResponseMessage {
     return this.client.create({
       ID: this.randomUUID(),
       NAME: name,

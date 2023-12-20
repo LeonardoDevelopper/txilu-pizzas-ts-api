@@ -1,7 +1,7 @@
 import { DeliverInserts } from '../deliver/inserts';
 import { DeliverUpdates } from '../deliver/updates';
 
-export class Client {
+export class Deliver {
   private inserts : DeliverInserts = new DeliverInserts();
   public update :  DeliverUpdates = new DeliverUpdates();
   public deletes : DeliverDeletes = new DeliverDeletes();

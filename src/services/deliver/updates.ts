@@ -1,4 +1,3 @@
-import { ResponseMessage, ResponseMessageError } from '../../assets/interface/inserts';
 import { T_ResponseMessage } from '../../assets/types/inserts';
 
 export class DeliverUpdates {
@@ -14,7 +13,20 @@ export class DeliverUpdates {
     },
     {
       where: {ID : ID }
-    }
-    )
+    })
+    .then(() => {
+      console.log("User account created : )")
+      return  {
+          OK: true,
+          message: "User account created : )"
+      }
+  })
+  .catch((error : Error) => {
+      console.log(error.message+ " : (")
+      return {
+          OK: false,
+          messageError: error.name + " : ("
+      }
+  })
   }
 }
