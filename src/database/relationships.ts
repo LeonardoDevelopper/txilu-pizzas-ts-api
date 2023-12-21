@@ -15,24 +15,26 @@ import category from '../models/pizza/category'
 import pizza from '../models/pizza/pizza'
 import pizza_rate from '../models/pizza/rate'
 
-client.hasMany(client_local_delivery, {constraint: true})
-client.hasOne(client_cart, {constraint: true})
-client.hasMany(client_favorite_deliver, {constraint: true})
-client.hasMany(client_favorite_pizza, {constraint: true})
+client.hasMany(client_local_delivery, {constraints: true})
+client.hasOne(client_cart, {constraints: true})
+client.hasMany(client_favorite_deliver, {constraints: true})
+client.hasMany(client_favorite_pizza, {constraints: true})
 
-client.hasMany(order, {constraint: true})
-client.hasMany(pizza_rate, {constraint: true})
-client.hasMany(deliver_rate, {constraint: true})
+client.hasMany(order, {constraints: true})
+client.hasMany(pizza_rate, {constraints: true})
+client.hasMany(deliver_rate, {constraints: true})
 
-order.belongsToMany(pizza, {through: order_items, constraint: true})
+order.belongsToMany(pizza, {through: order_items, constraints: true})
 
-admin.hasOne(admin_location, {constraint: true})
+admin.hasOne(admin_location, {constraints: true})
 
-pizza.belongsToMany(order, {through: order_items, constraint: true } ) 
-pizza.hasMany(pizza_rate, {constraint: true}) 
-pizza.hasMany(client_cart, {constraint: true}) 
-category.hasMany(pizza, {constraint: true})
+pizza.belongsToMany(order, {through: order_items, constraints: true } ) 
+pizza.hasMany(pizza_rate, {constraints: true}) 
+pizza.hasMany(client_cart, {constraints: true}) 
+category.hasMany(pizza, {constraints: true})
 
-deliver.hasOne(deliver_location, {constraint: true})
-deliver.hasMany(order, {constraint: true})
-deliver.hasMany(deliver_rate, {constraint: true})
+deliver.hasOne(deliver_location, {constraints: true})
+deliver.hasMany(order, {constraints: true})
+deliver.hasMany(deliver_rate, {constraints: true})
+
+

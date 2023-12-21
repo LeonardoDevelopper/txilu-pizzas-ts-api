@@ -1,4 +1,4 @@
-import { databaseModel } from '../..'
+import  databaseModel from '../..'
 import  { DataTypes } from "sequelize"
 
 export default databaseModel.define('FAVORITE_PIZZA',{

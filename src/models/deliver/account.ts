@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize"
-import { databaseModel } from '../..'
+import  databaseModel from '../..'
 
-export default databaseModel.define('DELIVER', {
+const deliver =  databaseModel.define('DELIVER', {
     ID: {
         type: DataTypes.STRING,
         primaryKey: true
@@ -37,3 +37,5 @@ export default databaseModel.define('DELIVER', {
         defaultValue : "pendding"
     }
 })
+
+export default deliver;

@@ -1,9 +1,10 @@
+import { Dialect, Sequelize, SyncOptions } from 'sequelize';
 import { Force } from '../server/server';
 
 export class DataBase {
-  private sequelize = require('sequelize')
-  public database : any;
-  constructor(
+  private static sequelize = require('sequelize')
+  private static connection : Sequelize
+  private constructor(  
     private host : string, 
     private user : string, 
     private password : string,
@@ -11,30 +12,37 @@ export class DataBase {
     private dialect? : string, 
     private port? : number,
     ) {}
-  connect() : any {
-    this.database = new this.sequelize(this.name, this.user, this.password, 
+  static connect( 
+     host : string, 
+     user : string, 
+     password : string,
+     name : string, 
+     dialect? : Dialect, 
+     port? : number,) : Sequelize {
+      if (DataBase.connection)
+        return DataBase.connection;
+      return DataBase.connection = new Sequelize(name, user, password, 
       {
-        host: this.host,
-        dialect: this.dialect,
-        port: this.port
+        host: host,
+        dialect: dialect,
+        port: port
       })
-      return this.database
   }
 
-  async testConnection() : Promise<string> 
+  static async testConnection() : Promise<string> 
   {
-    return await this.database.authenticate()
+    return await DataBase.connection.authenticate()
     .then(() => "database synchronously : )")
     .catch((error : Error) => "Error authenticating : (\n" + error.message);
   }
 
-  build(force? : Force) : string {
-    return this.database.sync( force )
+  static build(force? : SyncOptions) : Promise<string> {
+    return DataBase.connection.sync( force )
     .then(() => "database buillded : )")
     .catch((error : Error) => "Error buillding database : (\n" + error.message);
   }
 
-  model() : any {
-    return this.connect();
+  static databaseModel() : Sequelize {
+    return DataBase.connection;
   }
 }

@@ -1,7 +1,7 @@
 import {  DataTypes }  from "sequelize"
-import { databaseModel } from '../..'
+import  databaseModel from '../..'
 
-export default databaseModel.define('ADMIN', {
+const admin =  databaseModel.define('ADMIN', {
     ID: {
         type: DataTypes.STRING,
         primaryKey: true
@@ -25,3 +25,5 @@ export default databaseModel.define('ADMIN', {
         allowNull: false,
     }
 })
+
+export default admin

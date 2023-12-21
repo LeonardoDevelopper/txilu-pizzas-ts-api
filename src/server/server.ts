@@ -1,59 +1,77 @@
+import { Dialect, Sequelize, SequelizeScopeError, SyncOptions } from 'sequelize';
 import { DataBase } from '../database/database';
 export type Force = {force: boolean} | null;
 export type Protocol = 'localhost' | 'http' | 'https';
 export class Server {
   // declaration os props
-  private express = require("express");
-  private adm_routes = require("../routes/adm_routes");
-  private server = new this.express();
-  private port : number;
-  private protocol: Protocol;
-  private database : DataBase | any;
+  private static express = require("express");
+  private static starter: any ;
+  private static port : number;
+  private static protocol: Protocol;
+  private static database : Sequelize | any;
+  private static adm_routes = require("./routes/adm_routes");
 
   // buillding properties  
-  constructor( port: number, protocol : Protocol ) {
-    this.port = port;
-    this.protocol = protocol;
+  private constructor( port: number, protocol : Protocol ) {
+    Server.port = port;
+    Server.protocol = protocol;
   }
 
   // server methods
-  config() : void {
-    this.server.use(this.express.json());
-    this.server.use(this.express.urlencoded({extends: false}))
+  static config() : void {
+    Server.starter.use(Server.express.json());
+    Server.starter.use(Server.express.urlencoded({extended: false}))
+    console.log("set server config...")
+    
+  }
+  // start server
+  static start(port : number, protocol: Protocol) : string {
+    Server.port = port;
+    Server.protocol = protocol;
+    if (Server.starter)
+      return Server.starter
+    else
+    {
+      Server.starter = new Server.express()
+      Server.starter.listen(Server.port, (error: Error) => {
+        return error;
+      })
+      console.log("Starting server...")
+      return `server is running... on http://${Server.protocol}:${Server.port}/`;
+    } 
   }
 
-  start() : string {
-    this.server.listen(this.port, (error: Error) => {
-      return error;
-    })
-    return `server is running... on ${this.protocol}:${this.port}/`;
-  }
+  static routers() : void {
 
-  routers() : void {
-    this.server.use('', this.adm_routes);
+    Server.starter.use('', Server.adm_routes);
+    console.log("including server routes...")
   }
   
   // database methods
-  connectDatabase(
+  static connectDatabase(
     dbhost: string,
      dbuser: string, 
      dbpassword: string, 
      dbname: string, 
-     dbdialect?: string, 
+     dbdialect?: Dialect, 
      dbport? : number
-     ) : any {
-    this.database = new DataBase(dbhost, dbuser, dbpassword, dbname, dbdialect, dbport);
-    try {
-      return this.database.connect();
-    } catch (error : any) {
-      return error.message;
-    }
+     ) : Sequelize | SequelizeScopeError {
+      console.log("connecting server to database...")
+    return Server.database = DataBase.connect(dbhost, dbuser, dbpassword, dbname, dbdialect, dbport);
+    
   }
-  async testDatabaseConnection() : Promise<String> 
+  static async testDatabaseConnection() : Promise<String> 
   {
-      return await this.database.testConnection();
+    console.log("Testing Database Connection...")
+    return await DataBase.testConnection();
   }
-  buildDatabase(force? : Force) : string {
-    return this.database.build(force);
+  
+  static buildDatabase(force? : SyncOptions) : Promise<string> {
+    console.log("synchroning tables... ")
+    return DataBase.build(force);
   }
+  static model () : Sequelize {
+    return DataBase.databaseModel();
+  }
+  
 }

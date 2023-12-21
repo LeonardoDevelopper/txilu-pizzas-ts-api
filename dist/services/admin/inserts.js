@@ -6,7 +6,7 @@ class AdminInserts {
     constructor() {
         this.UUID = randomUUID;
         this.admin = require("../../models/admin/account");
-        this.deliver = require('../../models/deliver/account');
+        this.deliver = require('../../database/relationships');
     }
     create_account(name, email, phone, password) {
         return this.admin.create({
