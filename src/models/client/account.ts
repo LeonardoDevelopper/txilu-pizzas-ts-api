@@ -1,7 +1,8 @@
-import {  DataTypes }  from "sequelize"
-import  databaseModel from '../..'
+import {  DataTypes, Model, ModelCtor, Sequelize }  from "sequelize"
 
-export default databaseModel.define('CLIENT', {
+export default function buildClient(reference : Sequelize) : ModelCtor<Model<any, any>>
+ {
+    return reference.define('CLIENT', {
     ID: {
         type: DataTypes.STRING,
         primaryKey: true
@@ -24,4 +25,6 @@ export default databaseModel.define('CLIENT', {
         type: DataTypes.STRING,
         allowNull: false,
     }
-})
+    })
+
+}

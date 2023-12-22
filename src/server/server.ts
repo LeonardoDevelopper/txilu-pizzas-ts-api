@@ -1,16 +1,14 @@
-import { Dialect, Sequelize, SequelizeScopeError, SyncOptions } from 'sequelize';
+import { Dialect, Model, ModelCtor, Sequelize, SyncOptions } from 'sequelize';
 import { DataBase } from '../database/database';
 import { Router } from 'express';
 export type Force = {force: boolean} | null;
 export type Protocol = 'localhost' | 'http' | 'https';
 export class Server {
-  // declaration os props
   private static express = require("express");
   private static starter: any ;
   private static port : number;
   private static protocol: Protocol;
   private static database : Sequelize | any
-  private static adm_routes = require("./routes/adm_routes");
 
   // buillding properties  
   private constructor( port: number, protocol : Protocol ) {
@@ -60,7 +58,7 @@ export class Server {
   static routers() : void {
     try {
       console.log('\x1b[36m%s\x1b[0m',"[routes] : including server routes...")
-      Server.starter.use('', Server.adm_routes);
+      Server.starter.use('', Server);
       console.log('\x1b[32m%s\x1b[0m',"[routes] : server routes included : )")
     } catch (error) {
       console.log('\x1b[31m%s\x1b[0m',"[error] : cannot include server routes : ("+error)
@@ -103,8 +101,16 @@ export class Server {
     else 
       console.log('\x1b[32m%s\x1b[', "[database] : "+res)
   }
+
+  static createDatabaseTables () : void {
+    DataBase.createTables(DataBase.databaseModel())
+  }
+ 
   static model () : Sequelize {
     return DataBase.databaseModel();
+  }
+  static getDatabaseTables() : ModelCtor<Model<any, any>>[] {
+    return DataBase.getTables()
   }
   
 }

@@ -1,7 +1,8 @@
-import { DataTypes } from "sequelize"
-import  databaseModel from '../..'
+import {  DataTypes, Model, ModelCtor, Sequelize }  from "sequelize"
 
-export default databaseModel.define('PIZZA',{
+export default function buildPizza(reference : Sequelize) : ModelCtor<Model<any, any>>
+ {
+    return reference.define('PIZZA',{
     ID:{
         type: DataTypes.STRING(36),
         primaryKey: true,
@@ -26,4 +27,6 @@ export default databaseModel.define('PIZZA',{
         allowNull: false,
         defaultValue: "AVALIABLE"
     },
-})
+    })
+
+}

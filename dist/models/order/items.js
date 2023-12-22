@@ -1,17 +1,16 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = require("sequelize");
-const __1 = __importDefault(require("../.."));
-exports.default = __1.default.define('ORDER_ITEMS', {
-    ID: {
-        type: sequelize_1.DataTypes.STRING,
-        primaryKey: true,
-    },
-    QUANT: {
-        type: sequelize_1.DataTypes.INTEGER,
-        allowNull: false
-    },
-});
+function buildItems(reference) {
+    return reference.define('ORDER_ITEMS', {
+        ID: {
+            type: sequelize_1.DataTypes.STRING,
+            primaryKey: true,
+        },
+        QUANT: {
+            type: sequelize_1.DataTypes.INTEGER,
+            allowNull: false
+        },
+    });
+}
+exports.default = buildItems;

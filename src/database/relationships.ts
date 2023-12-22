@@ -1,40 +1,37 @@
-import sequelize from 'sequelize'
-import admin from '../models/admin/account'
-import admin_location from '../models/admin/location'
-import client from '../models/client/account'
-import client_cart from '../models/client/cart'
-import client_favorite_deliver from '../models/client/favorite_deliver'
-import client_favorite_pizza from '../models/client/favorite_pizza'
-import client_local_delivery from '../models/client/local_delivery'
-import deliver from '../models/deliver/account'
-import deliver_rate from '../models/deliver/rate'
-import deliver_location from '../models/deliver/location'
-import order_items from '../models/order/items'
-import order from '../models/order/order'
-import category from '../models/pizza/category'
-import pizza from '../models/pizza/pizza'
-import pizza_rate from '../models/pizza/rate'
+import { Server } from '../server/server'
 
-client.hasMany(client_local_delivery, {constraints: true})
-client.hasOne(client_cart, {constraints: true})
-client.hasMany(client_favorite_deliver, {constraints: true})
-client.hasMany(client_favorite_pizza, {constraints: true})
+const [
 
-client.hasMany(order, {constraints: true})
-client.hasMany(pizza_rate, {constraints: true})
-client.hasMany(deliver_rate, {constraints: true})
+  ADMIN,             ADMIN_LOCATION,
+  CART,              CATEGORY,
+  CLIENT,            DELIVER,
+  DELIVER_LOCATION,  DELIVER_RATE,
+  FAVORITE_DEVLIVER, ORDER_ITEMS,
+  ORDER,             PIZZA,
+  LOCAL_DELIVERY,    FAVORITE_PIZZA,
+  PIZZA_RATE
 
-order.belongsToMany(pizza, {through: order_items, constraints: true})
+ ] = Server.getDatabaseTables();
+ 
+CLIENT.hasMany(LOCAL_DELIVERY, {constraints: true})
+CLIENT.hasOne(CART, {constraints: true})
+CLIENT.hasMany(FAVORITE_DEVLIVER, {constraints: true})
+CLIENT.hasMany(FAVORITE_PIZZA, {constraints: true})
 
-admin.hasOne(admin_location, {constraints: true})
+CLIENT.hasMany(ORDER, {constraints: true})
+CLIENT.hasMany(DELIVER_RATE, {constraints: true})
+CLIENT.hasMany(PIZZA, {constraints: true})
 
-pizza.belongsToMany(order, {through: order_items, constraints: true } ) 
-pizza.hasMany(pizza_rate, {constraints: true}) 
-pizza.hasMany(client_cart, {constraints: true}) 
-category.hasMany(pizza, {constraints: true})
+ORDER.belongsToMany(PIZZA_RATE, {through: ORDER_ITEMS, constraints: true})
 
-deliver.hasOne(deliver_location, {constraints: true})
-deliver.hasMany(order, {constraints: true})
-deliver.hasMany(deliver_rate, {constraints: true})
+ADMIN.hasOne(ADMIN_LOCATION, {constraints: true})
 
+PIZZA.belongsToMany(ORDER, {through: ORDER_ITEMS, constraints: true } ) 
+PIZZA.hasMany(PIZZA_RATE, {constraints: true}) 
+PIZZA.hasMany(CART, {constraints: true}) 
+CATEGORY.hasMany(PIZZA, {constraints: true})
+
+DELIVER.hasOne(DELIVER_LOCATION, {constraints: true})
+DELIVER.hasMany(ORDER, {constraints: true})
+DELIVER.hasMany(DELIVER_RATE, {constraints: true})
 

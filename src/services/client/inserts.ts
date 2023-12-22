@@ -1,4 +1,4 @@
-import { T_ResponseMessage } from "../../assets/types/inserts"
+import { T_ResponseMessage } from "../../assets/types/types"
 
 export class ClientInserts {
   private randomUUID = require("crypto");

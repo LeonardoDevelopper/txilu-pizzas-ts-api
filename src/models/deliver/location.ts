@@ -1,7 +1,8 @@
-import { DataTypes } from "sequelize"
-import  databaseModel from '../..'
+import {  DataTypes, Model, ModelCtor, Sequelize }  from "sequelize"
 
-export default databaseModel.define('DELIVER_LOCATION', {
+export default function buildDeliverLocation(reference : Sequelize) : ModelCtor<Model<any, any>>
+ {
+    return reference.define('DELIVER_LOCATION', {
     ID: {
         type: DataTypes.STRING,
         primaryKey: true
@@ -15,4 +16,5 @@ export default databaseModel.define('DELIVER_LOCATION', {
         type: DataTypes.STRING,
         allowNull: false,
     }
-})
+    })
+ }

@@ -1,7 +1,8 @@
-import { DataTypes } from "sequelize"
-import  databaseModel from '../..'
+import {  DataTypes, Model, ModelCtor, Sequelize }  from "sequelize"
 
-export default databaseModel.define('ORDER_ITEMS',{
+export default function buildItems(reference : Sequelize) : ModelCtor<Model<any, any>>
+ {
+    return reference.define('ORDER_ITEMS',{
     ID:{
         type: DataTypes.STRING,
         primaryKey: true,
@@ -10,4 +11,5 @@ export default databaseModel.define('ORDER_ITEMS',{
         type: DataTypes.INTEGER,
         allowNull: false
     },
-})
+    })
+ }

@@ -1,9 +1,11 @@
-import  { DataTypes } from "sequelize"
-import  databaseModel from '../..'
+import {  DataTypes, Model, ModelCtor, Sequelize }  from "sequelize"
 
-export default  databaseModel.define("FAVORITE_DEVLIVER", {
+export default function buildFavoriteDeliver(reference : Sequelize) : ModelCtor<Model<any, any>>
+ {
+    return reference.define("FAVORITE_DEVLIVER", {
     ID: {
         type: DataTypes.STRING(36),
         primaryKey: true
     }
-})
+    })
+ }

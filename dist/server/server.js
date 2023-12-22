@@ -58,7 +58,7 @@ class Server {
     static routers() {
         try {
             console.log('\x1b[36m%s\x1b[0m', "[routes] : including server routes...");
-            Server.starter.use('', Server.adm_routes);
+            Server.starter.use('', Server);
             console.log('\x1b[32m%s\x1b[0m', "[routes] : server routes included : )");
         }
         catch (error) {
@@ -98,11 +98,15 @@ class Server {
                 console.log('\x1b[32m%s\x1b[', "[database] : " + res);
         });
     }
+    static createDatabaseTables() {
+        database_1.DataBase.createTables(database_1.DataBase.databaseModel());
+    }
     static model() {
         return database_1.DataBase.databaseModel();
     }
+    static getDatabaseTables() {
+        return database_1.DataBase.getTables();
+    }
 }
 exports.Server = Server;
-// declaration os props
 Server.express = require("express");
-Server.adm_routes = require("./routes/adm_routes");

@@ -5,7 +5,8 @@ import { Admin } from '../../services/class/admin';
 import { Server } from '../server';
 
 export function admin_routes() {
-  const admin = new Admin;
+  const admin2 = new Admin;
+  admin2.inserts.create_account("admin", "SADSAD", 8238, "dasiudasyd");
   Server.routes().get('/', (req : Request, res : Response ) => {
     res.json({success: "Hello Word"})
   })
