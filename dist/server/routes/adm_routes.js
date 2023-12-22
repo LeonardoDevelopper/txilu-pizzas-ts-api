@@ -1,32 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const express = require('express');
-const deliver_1 = require("../../services/class/deliver");
-const client_1 = require("../../services/class/client");
+exports.admin_routes = void 0;
 const admin_1 = require("../../services/class/admin");
-const route = express.Router();
-function sync() {
-    try {
-        console.log('including user services...');
-        const admin = new admin_1.Admin();
-        const client = new client_1.Client();
-        const deliver = new deliver_1.Deliver();
-        require('./database/relationships');
-        console.log('user services included with sucess : )');
-    }
-    catch (error) {
-        console.log('\x1b[31m%s\x1b[0m', 'error in include user services : (');
-    }
+const server_1 = require("../server");
+function admin_routes() {
+    const admin = new admin_1.Admin;
+    server_1.Server.routes().get('/', (req, res) => {
+        res.json({ success: "Hello Word" });
+    });
+    server_1.Server.routes().get('/any', (req, res) => {
+        res.json({ success: "HAhHahHahHahHahHahH" });
+    });
 }
-sync();
-/*const admin = new Admin();
-const client = new Client()
-const deliver = new Deliver()
-require('../../database/relationships')
-*/
-//admin.inserts.create_account('Loja Cazenga, Cuca', 'txilupizzascazengacuca@gmail.com', 956096907, '1001')
-// deliver.update.update_account('Loja Cazenga, Cuca', 'txilupizzascazengacuca@gmail.com', "956096907", '1001', "9924893", "fsdfs")
-route.get('/', (req, res) => {
-    res.json({ Message: "Hello Word" });
-});
-module.exports = route;
+exports.admin_routes = admin_routes;

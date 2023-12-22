@@ -33,13 +33,15 @@ class DataBase {
         return __awaiter(this, void 0, void 0, function* () {
             return yield DataBase.connection.authenticate()
                 .then(() => "database synchronously : )")
-                .catch((error) => "Error authenticating : (\n" + error.message);
+                .catch((error) => "cannot stabilize connection,error");
         });
     }
     static build(force) {
-        return DataBase.connection.sync(force)
-            .then(() => "database buillded : )")
-            .catch((error) => "Error buillding database : (\n" + error.message);
+        return __awaiter(this, void 0, void 0, function* () {
+            return DataBase.connection.sync(force)
+                .then(() => "database buillded : )")
+                .catch((error) => "error buillding database,error");
+        });
     }
     static databaseModel() {
         return DataBase.connection;

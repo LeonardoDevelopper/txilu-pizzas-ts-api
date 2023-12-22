@@ -1,5 +1,6 @@
 import {  DataTypes }  from "sequelize"
-import  databaseModel from '../..'
+import  databaseModel  from '../..'
+
 
 const admin =  databaseModel.define('ADMIN', {
     ID: {
@@ -25,5 +26,6 @@ const admin =  databaseModel.define('ADMIN', {
         allowNull: false,
     }
 })
+
 
 export default admin

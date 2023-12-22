@@ -33,13 +33,13 @@ export class DataBase {
   {
     return await DataBase.connection.authenticate()
     .then(() => "database synchronously : )")
-    .catch((error : Error) => "Error authenticating : (\n" + error.message);
+    .catch((error : Error) => "cannot stabilize connection,error");
   }
 
-  static build(force? : SyncOptions) : Promise<string> {
+  static async build(force? : SyncOptions) : Promise<string> {
     return DataBase.connection.sync( force )
     .then(() => "database buillded : )")
-    .catch((error : Error) => "Error buillding database : (\n" + error.message);
+    .catch((error : Error) => "error buillding database,error");
   }
 
   static databaseModel() : Sequelize {
