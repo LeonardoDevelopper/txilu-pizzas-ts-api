@@ -4,7 +4,7 @@ export default function buildCart(reference : Sequelize) : ModelCtor<Model<any, 
  {
     return reference.define('CART', {
     ID:{
-        type: DataTypes.STRING,
+        type: DataTypes.UUID,
         primaryKey: true
     },
     QUANT: {

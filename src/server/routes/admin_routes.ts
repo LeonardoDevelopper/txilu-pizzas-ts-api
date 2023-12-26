@@ -12,9 +12,25 @@ export function admin_routes() {
     res.json(dbResponse)
   })
 
-  Server.routes().post('/admin/inserts/create-deliver-account', (req : Request, res : Response ) => {
-    const { id, infoCar, adress } = req.body.data;
-    res.json({success: "HAhHahHahHahHahHahH"})
+  Server.routes().post('/admin/inserts/create-deliver-account', async (req : Request, res : Response ) => {
+    const { id, infoCar } = req.body.data;
+    console.log(req.body.data)
+    const dbResponse = await admin.inserts.create_deliver_account(id, infoCar.board, infoCar.photo, infoCar.color, infoCar.name, infoCar.model )
+    res.json(dbResponse)
+  })
+
+  Server.routes().post('/admin/inserts/create-pizza-category',  async (req : Request, res : Response ) => {
+    const { name } = req.body.data;
+    const dbResponse = await admin.inserts.create_pizza_category(name);
+    res.json(dbResponse);
+  })
+
+  Server.routes().post('/admin/inserts/create-pizza',  async (req : Request, res : Response ) => {
+    const { name, photo, price, status, category, igredients } = req.body.data ;
+    const dbResponse = await admin.inserts.create_pizza(name, photo ,price, status, category, igredients)
+    res.json(dbResponse);
+
+
   })
   
 }

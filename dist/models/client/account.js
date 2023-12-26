@@ -4,11 +4,11 @@ const sequelize_1 = require("sequelize");
 function buildClient(reference) {
     return reference.define('CLIENT', {
         ID: {
-            type: sequelize_1.DataTypes.STRING,
+            type: sequelize_1.DataTypes.UUID,
             primaryKey: true
         },
         NAME: {
-            type: sequelize_1.DataTypes.STRING,
+            type: sequelize_1.DataTypes.STRING(25),
             allowNull: false
         },
         EMAIL: {
@@ -22,7 +22,7 @@ function buildClient(reference) {
             unique: true
         },
         PASS_WORD: {
-            type: sequelize_1.DataTypes.STRING,
+            type: sequelize_1.DataTypes.STRING(25),
             allowNull: false,
         }
     });

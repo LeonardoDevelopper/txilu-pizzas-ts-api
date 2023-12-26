@@ -4,7 +4,7 @@ export default function buildFavoritePizza(reference : Sequelize) : ModelCtor<Mo
  {
     return reference.define('FAVORITE_PIZZA',{
         ID:{
-            type: DataTypes.STRING,
+            type: DataTypes.UUID,
             primaryKey: true,
         }
     })

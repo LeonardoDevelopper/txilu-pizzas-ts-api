@@ -15,7 +15,7 @@ Server.connectDatabase('localhost', 'root', '1001', 'db_api_TS', 'mysql')
 Server.config()
 
 // test database connection 
-Server.testDatabaseConnection(); 
+Server.testDatabaseConnection();
 
 // build and sync models 
 Server.buildDatabase();

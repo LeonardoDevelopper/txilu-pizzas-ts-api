@@ -1,5 +1,4 @@
-import { DataTypes, Dialect, Model, ModelCtor, Sequelize, SyncOptions } from 'sequelize';
-import { Force } from '../server/server';
+import { Dialect, Model, ModelCtor, Sequelize, SyncOptions } from 'sequelize';
 import buildAdmin from '../models/admin/account';
 import buildAdminLocation from '../models/admin/location';
 import buildCart from '../models/client/cart';
@@ -17,6 +16,7 @@ import buildLocalDelivery from '../models/client/local_delivery';
 import buildPizzaRate from '../models/pizza/rate';
 import buildDeliverCar from '../models/deliver/car';
 import relationships from './relationships';
+import buildPizzaIgredients from '../models/pizza/igredients';
 
 export class DataBase {
   private static sequelize = require('sequelize')
@@ -84,6 +84,7 @@ export class DataBase {
    DataBase.tables.push(buildFavoritePizza(reference)) 
    DataBase.tables.push(buildPizzaRate(reference)) 
    DataBase.tables.push(buildDeliverCar(reference))
+   DataBase.tables.push(buildPizzaIgredients(reference))
     
   }
   public static setRelationships() {

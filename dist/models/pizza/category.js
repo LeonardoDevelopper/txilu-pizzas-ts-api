@@ -4,13 +4,16 @@ const sequelize_1 = require("sequelize");
 function buildCategory(reference) {
     return reference.define('CATEGORY', {
         ID: {
-            type: sequelize_1.DataTypes.STRING(36),
+            type: sequelize_1.DataTypes.UUID,
             primaryKey: true,
         },
         NAME: {
-            type: sequelize_1.DataTypes.STRING,
+            type: sequelize_1.DataTypes.STRING(25),
             allowNull: false,
-            unique: true
+            unique: true,
+            validate: {
+                isAlpha: true
+            }
         }
     });
 }

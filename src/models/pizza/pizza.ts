@@ -4,17 +4,23 @@ export default function buildPizza(reference : Sequelize) : ModelCtor<Model<any,
  {
     return reference.define('PIZZA',{
     ID:{
-        type: DataTypes.STRING(36),
+        type: DataTypes.UUID,
         primaryKey: true,
     },
-    PATH: {
+    PHOTO: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        validate: {
+            isUrl: true
+        }
 
     },
     NAME:{
-        type: DataTypes.STRING,
-        allowNull: false
+        type: DataTypes.STRING(25),
+        allowNull: false,
+        validate : {
+            isAlpha : true
+        }
 
     },
     PRICE: {
@@ -25,7 +31,7 @@ export default function buildPizza(reference : Sequelize) : ModelCtor<Model<any,
     STATUS:{
         type: DataTypes.STRING,
         allowNull: false,
-        defaultValue: "AVALIABLE"
+        defaultValue: "alaviable"
     },
     })
 

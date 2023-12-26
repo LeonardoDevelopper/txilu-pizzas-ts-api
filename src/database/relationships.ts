@@ -11,7 +11,7 @@ export default function relationships () : void {
     FAVORITE_DEVLIVER, ORDER_ITEMS,
     ORDER,             PIZZA,
     LOCAL_DELIVERY,    FAVORITE_PIZZA,
-    PIZZA_RATE, CAR
+    PIZZA_RATE, CAR, IGREDIENT
   
    ] = Server.getDatabaseTables();
    
@@ -22,7 +22,6 @@ export default function relationships () : void {
   
   CLIENT.hasMany(ORDER, {constraints: true})
   CLIENT.hasMany(DELIVER_RATE, {constraints: true})
-  CLIENT.hasMany(PIZZA, {constraints: true})
   
   ORDER.belongsToMany(PIZZA_RATE, {through: ORDER_ITEMS, constraints: true})
   
@@ -30,7 +29,8 @@ export default function relationships () : void {
   
   PIZZA.belongsToMany(ORDER, {through: ORDER_ITEMS, constraints: true } ) 
   PIZZA.hasMany(PIZZA_RATE, {constraints: true}) 
-  PIZZA.hasMany(CART, {constraints: true}) 
+  PIZZA.hasMany(CART, {constraints: true})
+  PIZZA.hasMany(IGREDIENT, {constraints: true}) 
   CATEGORY.hasMany(PIZZA, {constraints: true})
   
   DELIVER.hasOne(DELIVER_LOCATION, {constraints: true})

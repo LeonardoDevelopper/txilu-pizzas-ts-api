@@ -19,9 +19,21 @@ function admin_routes() {
         const dbResponse = yield admin.inserts.create_account(name, email, phone, password);
         res.json(dbResponse);
     }));
-    server_1.Server.routes().post('/admin/inserts/create-deliver-account', (req, res) => {
-        const { id, infoCar, adress } = req.body.data;
-        res.json({ success: "HAhHahHahHahHahHahH" });
-    });
+    server_1.Server.routes().post('/admin/inserts/create-deliver-account', (req, res) => __awaiter(this, void 0, void 0, function* () {
+        const { id, infoCar } = req.body.data;
+        console.log(req.body.data);
+        const dbResponse = yield admin.inserts.create_deliver_account(id, infoCar.board, infoCar.photo, infoCar.color, infoCar.name, infoCar.model);
+        res.json(dbResponse);
+    }));
+    server_1.Server.routes().post('/admin/inserts/create-pizza-category', (req, res) => __awaiter(this, void 0, void 0, function* () {
+        const { name } = req.body.data;
+        const dbResponse = yield admin.inserts.create_pizza_category(name);
+        res.json(dbResponse);
+    }));
+    server_1.Server.routes().post('/admin/inserts/create-pizza', (req, res) => __awaiter(this, void 0, void 0, function* () {
+        const { name, photo, price, status, category, igredients } = req.body.data;
+        const dbResponse = yield admin.inserts.create_pizza(name, photo, price, status, category, igredients);
+        res.json(dbResponse);
+    }));
 }
 exports.admin_routes = admin_routes;

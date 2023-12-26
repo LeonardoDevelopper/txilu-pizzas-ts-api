@@ -4,11 +4,11 @@ export default function buildClient(reference : Sequelize) : ModelCtor<Model<any
  {
     return reference.define('CLIENT', {
     ID: {
-        type: DataTypes.STRING,
+        type: DataTypes.UUID,
         primaryKey: true
     },
     NAME: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(25),
         allowNull: false
     },
     EMAIL:{
@@ -22,7 +22,7 @@ export default function buildClient(reference : Sequelize) : ModelCtor<Model<any
         unique: true
     },
     PASS_WORD:{
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(25),
         allowNull: false,
     }
     })

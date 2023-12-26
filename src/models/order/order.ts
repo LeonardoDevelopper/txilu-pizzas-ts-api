@@ -4,21 +4,21 @@ export default function buildOrder(reference : Sequelize) : ModelCtor<Model<any,
  {
     return reference.define('ORDER',{
     ID:{
-        type: DataTypes.STRING,
+        type: DataTypes.UUID,
         primaryKey: true,
     },
     LAT: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(25),
         allowNull: false
 
     },
     LON:{
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(25),
         allowNull: false
 
     },
     DISTANCE: {
-        type: DataTypes.DOUBLE,
+        type: DataTypes.DOUBLE(1,1),
         allowNull: false
     },
     TIME: {
@@ -27,7 +27,7 @@ export default function buildOrder(reference : Sequelize) : ModelCtor<Model<any,
 
     },
     STATUS:{
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(25),
         allowNull: false,
         defaultValue: "pending"
     },

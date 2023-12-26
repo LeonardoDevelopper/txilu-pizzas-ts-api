@@ -4,15 +4,15 @@ const sequelize_1 = require("sequelize");
 function buildAdminLocation(reference) {
     return reference.define('ADMIN_LOCATION', {
         ID: {
-            type: sequelize_1.DataTypes.STRING,
+            type: sequelize_1.DataTypes.UUID,
             primaryKey: true
         },
         LAT: {
-            type: sequelize_1.DataTypes.STRING,
+            type: sequelize_1.DataTypes.STRING(30),
             allowNull: false
         },
         LON: {
-            type: sequelize_1.DataTypes.STRING,
+            type: sequelize_1.DataTypes.STRING(30),
             allowNull: false,
         }
     });

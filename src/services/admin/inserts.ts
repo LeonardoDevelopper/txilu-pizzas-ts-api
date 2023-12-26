@@ -42,30 +42,117 @@ export class AdminInserts {
     }
   }
 
-  public create_deliver_account(ID : string) : dbResponse | res {
+  public create_deliver_account(
+    ID : string, board : string,  
+    carPhoto : URL, color : string, 
+    name : string, model: string ) : dbResponse | res {
     const deliver = this.getTable('DELIVERs')
     const car =this.getTable('CARs')
-    var dbR : dbResponse;
     if (typeof deliver != 'undefined' && typeof car != 'undefined')
     {
-      dbR = deliver.create({
+      return deliver.create({
         ID : ID
       })
-      .then(() => {
-        console.log("Deliver account created : )")
-        return  {
+      .then((deliver) => {
+        return car.create({
+          ID: board,
+          PHOTO: carPhoto,
+          NAME: name,
+          MODEL : model,
+          COLOR : color,
+          DELIVERID : ID
+        }).then(() => 
+        {
+          return  {
             OK: true,
             message: "Deliver account created : )"
-        }
+          }
+          }).catch((error : Error) => {
+            return {
+              OK: false,
+              messageError: error.message + " : ("
+          }
+          })
+        
       })
       .catch((error : Error) => {
         console.log(error.message+ " : (")
         return {
             OK: false,
-            messageError: error.name + " : ("
+            messageError: error.message + " : ("
         }
       })
       
+    }
+    return {
+      OK: false,
+      messageError:  "Error: model is type of undefined  : ("
+    }
+  }
+
+  public create_pizza_category(name : string) : dbResponse | res
+  {
+    const category = this.getTable("CATEGORies");
+    console.log(category)
+    if (typeof category != 'undefined')
+    {
+      return category.create({
+        ID: this.UUID(),
+        NAME: name
+      })
+      .then(() => 
+      {
+        return  {
+          OK: true,
+          message: "Pizza category created : )"
+        }
+        }).catch((error : Error) => {
+          return {
+            OK: false,
+            messageError: error.message + " : ("
+        }
+      })
+    }
+    return {
+      OK: false,
+      messageError:  "Error: model is type of undefined  : ("
+    }
+  }
+
+  public create_pizza(name: string, photo: URL, price : number, status : string, category : string, igredients : Array<string>) : dbResponse | res {
+    const pizzas = this.getTable("PIZZAs");
+    if (typeof pizzas != 'undefined')
+    {
+      const pizzaID = this.UUID();
+      return pizzas.create({
+        ID: pizzaID,
+        NAME: name,
+        PHOTO: photo,
+        PRICE: price,
+        STATUS: status,
+        CATEGORYID : category
+      })
+      .then(() => 
+      {
+        const ingredient = this.getTable('IGREDIENTs');
+        if(typeof ingredient != 'undefined')
+        {
+
+          igredients.forEach((igre) => {
+            ingredient.create({NAME: igre, PIZZAID: pizzaID})
+          })
+          console.log("pizza created : )")  
+        }
+        return  {
+          OK: true,
+          message: "Pizza created : )"
+        }
+        }).catch((error : Error) => {
+          return {
+            OK: false,
+            messageError: error.message + " : ("
+        }
+      })
     }
     return {
       OK: false,

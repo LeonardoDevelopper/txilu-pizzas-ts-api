@@ -4,7 +4,7 @@ export default function buildPizzaRate(reference : Sequelize) : ModelCtor<Model<
  {
     return reference.define('PIZZA_RATE',{
     ID:{
-        type: DataTypes.STRING(36),
+        type: DataTypes.UUID,
         primaryKey: true,
     },
     VALUE: {

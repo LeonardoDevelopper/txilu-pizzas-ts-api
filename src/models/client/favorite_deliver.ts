@@ -4,7 +4,7 @@ export default function buildFavoriteDeliver(reference : Sequelize) : ModelCtor<
  {
     return reference.define("FAVORITE_DEVLIVER", {
     ID: {
-        type: DataTypes.STRING(36),
+        type: DataTypes.UUID,
         primaryKey: true
     }
     })

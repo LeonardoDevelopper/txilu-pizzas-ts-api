@@ -4,19 +4,19 @@ export default function buildLocalDelivery(reference : Sequelize) : ModelCtor<Mo
  {
     return reference.define('LOCAL_DELIVERY',{
         ID:{
-            type: DataTypes.STRING,
+            type: DataTypes.UUID,
             primaryKey: true,
         },
         LAT: {
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(25),
             allowNull: false
         },
         LON:{
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(25),
             allowNull: false
         },
         NAME:{
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(25),
             allowNull: false,
             unique: true
         }

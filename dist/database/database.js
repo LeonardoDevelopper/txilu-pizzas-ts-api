@@ -31,6 +31,7 @@ const local_delivery_1 = __importDefault(require("../models/client/local_deliver
 const rate_2 = __importDefault(require("../models/pizza/rate"));
 const car_1 = __importDefault(require("../models/deliver/car"));
 const relationships_1 = __importDefault(require("./relationships"));
+const igredients_1 = __importDefault(require("../models/pizza/igredients"));
 class DataBase {
     constructor(host, user, password, name, dialect, port) {
         this.host = host;
@@ -86,6 +87,7 @@ class DataBase {
         DataBase.tables.push((0, favorite_pizza_1.default)(reference));
         DataBase.tables.push((0, rate_2.default)(reference));
         DataBase.tables.push((0, car_1.default)(reference));
+        DataBase.tables.push((0, igredients_1.default)(reference));
     }
     static setRelationships() {
         (0, relationships_1.default)();

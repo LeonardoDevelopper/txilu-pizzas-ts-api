@@ -4,16 +4,22 @@ const sequelize_1 = require("sequelize");
 function buildPizza(reference) {
     return reference.define('PIZZA', {
         ID: {
-            type: sequelize_1.DataTypes.STRING(36),
+            type: sequelize_1.DataTypes.UUID,
             primaryKey: true,
         },
-        PATH: {
+        PHOTO: {
             type: sequelize_1.DataTypes.STRING,
-            allowNull: false
+            allowNull: false,
+            validate: {
+                isUrl: true
+            }
         },
         NAME: {
-            type: sequelize_1.DataTypes.STRING,
-            allowNull: false
+            type: sequelize_1.DataTypes.STRING(25),
+            allowNull: false,
+            validate: {
+                isAlpha: true
+            }
         },
         PRICE: {
             type: sequelize_1.DataTypes.INTEGER,
@@ -22,7 +28,7 @@ function buildPizza(reference) {
         STATUS: {
             type: sequelize_1.DataTypes.STRING,
             allowNull: false,
-            defaultValue: "AVALIABLE"
+            defaultValue: "alaviable"
         },
     });
 }

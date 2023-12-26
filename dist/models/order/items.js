@@ -4,7 +4,7 @@ const sequelize_1 = require("sequelize");
 function buildItems(reference) {
     return reference.define('ORDER_ITEMS', {
         ID: {
-            type: sequelize_1.DataTypes.STRING,
+            type: sequelize_1.DataTypes.UUID,
             primaryKey: true,
         },
         QUANT: {

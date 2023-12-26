@@ -4,7 +4,7 @@ const sequelize_1 = require("sequelize");
 function buildFavoritePizza(reference) {
     return reference.define('FAVORITE_PIZZA', {
         ID: {
-            type: sequelize_1.DataTypes.STRING,
+            type: sequelize_1.DataTypes.UUID,
             primaryKey: true,
         }
     });

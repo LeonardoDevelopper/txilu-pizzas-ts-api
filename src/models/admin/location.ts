@@ -4,15 +4,15 @@ export default function buildAdminLocation(reference : Sequelize) : ModelCtor<Mo
  {
     return reference.define('ADMIN_LOCATION', {
     ID: {
-        type: DataTypes.STRING,
+        type: DataTypes.UUID,
         primaryKey: true
     },
     LAT: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(30),
         allowNull: false
     },
     LON:{
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(30),
         allowNull: false,
     }
     })

@@ -4,19 +4,19 @@ const sequelize_1 = require("sequelize");
 function buildOrder(reference) {
     return reference.define('ORDER', {
         ID: {
-            type: sequelize_1.DataTypes.STRING,
+            type: sequelize_1.DataTypes.UUID,
             primaryKey: true,
         },
         LAT: {
-            type: sequelize_1.DataTypes.STRING,
+            type: sequelize_1.DataTypes.STRING(25),
             allowNull: false
         },
         LON: {
-            type: sequelize_1.DataTypes.STRING,
+            type: sequelize_1.DataTypes.STRING(25),
             allowNull: false
         },
         DISTANCE: {
-            type: sequelize_1.DataTypes.DOUBLE,
+            type: sequelize_1.DataTypes.DOUBLE(1, 1),
             allowNull: false
         },
         TIME: {
@@ -24,7 +24,7 @@ function buildOrder(reference) {
             allowNull: false
         },
         STATUS: {
-            type: sequelize_1.DataTypes.STRING,
+            type: sequelize_1.DataTypes.STRING(25),
             allowNull: false,
             defaultValue: "pending"
         },

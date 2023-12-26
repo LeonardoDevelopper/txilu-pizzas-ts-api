@@ -4,13 +4,16 @@ export default function buildCategory(reference : Sequelize) : ModelCtor<Model<a
  {
     return reference.define('CATEGORY',{ 
     ID:{
-        type: DataTypes.STRING(36), 
+        type: DataTypes.UUID, 
         primaryKey: true,
     },
     NAME: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(25),
         allowNull: false,
-        unique: true
+        unique: true,
+        validate : {
+            isAlpha : true
+        }
 
     }
     })

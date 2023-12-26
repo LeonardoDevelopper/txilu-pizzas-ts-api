@@ -6,21 +6,33 @@ export default function buildDeliverCar(reference : Sequelize) : dbTable
     return reference.define('CAR', 
     {
       ID: {
-        type: DataTypes.UUID,
+        type: DataTypes.STRING(25),
         allowNull: false ,
         primaryKey: true
       },
-      NAME: {
+      PHOTO: {
         type : DataTypes.STRING,
+        validate : {
+          isUrl : true,
+        }
+      },
+      NAME: {
+        type : DataTypes.STRING(25),
         allowNull : false,
+        validate : {
+          isAlphanumeric : true,
+        }
       },
       MODEL : {
-        type : DataTypes.STRING,
+        type : DataTypes.STRING(25),
         allowNull: false,
+        validate : {
+          isAlphanumeric : true,
+        }
       },
       COLOR : {
-        type: DataTypes.STRING,
-        allowNull: false 
+        type: DataTypes.STRING(15),
+        allowNull: false,
       }
     })
  }

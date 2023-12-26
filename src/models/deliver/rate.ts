@@ -4,12 +4,16 @@ export default function buildDeliverRate(reference : Sequelize) : ModelCtor<Mode
  {
     return reference.define('DELIVER_RATE', {
     ID: {
-        type: DataTypes.STRING,
+        type: DataTypes.UUID,
         primaryKey: true
     },
     VALUE:{
         type: DataTypes.INTEGER,
         allowNull: false,
+    },
+    DESC : {
+        type: DataTypes.STRING,
+        allowNull : false
     }
     })
  }

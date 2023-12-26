@@ -4,7 +4,7 @@ const sequelize_1 = require("sequelize");
 function buildCart(reference) {
     return reference.define('CART', {
         ID: {
-            type: sequelize_1.DataTypes.STRING,
+            type: sequelize_1.DataTypes.UUID,
             primaryKey: true
         },
         QUANT: {
