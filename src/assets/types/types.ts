@@ -8,3 +8,5 @@ export type dbResponse = Promise<{ OK: boolean; message: string; } | { OK: boole
 export type dbTables = ModelCtor<Model<any, any>>[]
 
 export type dbTable = ModelCtor<Model<any, any>>;
+
+export type res = { OK: boolean; message: string; } | { OK: boolean; messageError: string; };

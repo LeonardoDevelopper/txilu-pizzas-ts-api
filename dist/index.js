@@ -11,7 +11,8 @@ server_1.Server.config();
 // test database connection 
 server_1.Server.testDatabaseConnection();
 // build and sync models 
-server_1.Server.buildDatabase({ force: true });
+server_1.Server.buildDatabase();
 server_1.Server.createDatabaseTables();
+server_1.Server.databaseRelationShips();
 //routes
 (0, admin_routes_1.admin_routes)();

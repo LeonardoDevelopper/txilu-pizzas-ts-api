@@ -5,13 +5,15 @@ import { Admin } from '../../services/class/admin';
 import { Server } from '../server';
 
 export function admin_routes() {
-  const admin2 = new Admin;
-  admin2.inserts.create_account("admin", "SADSAD", 8238, "dasiudasyd");
-  Server.routes().get('/', (req : Request, res : Response ) => {
-    res.json({success: "Hello Word"})
+  const admin = new Admin;
+  Server.routes().post('/admin/inserts/create-account', async(req : Request, res : Response ) => {
+    const { name, email, phone, password } = req.body.data;
+    const dbResponse = await admin.inserts.create_account(name, email, phone, password);
+    res.json(dbResponse)
   })
 
-  Server.routes().get('/any', (req : Request, res : Response ) => {
+  Server.routes().post('/admin/inserts/create-deliver-account', (req : Request, res : Response ) => {
+    const { id, infoCar, adress } = req.body.data;
     res.json({success: "HAhHahHahHahHahHahH"})
   })
   

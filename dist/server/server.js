@@ -101,6 +101,9 @@ class Server {
     static createDatabaseTables() {
         database_1.DataBase.createTables(database_1.DataBase.databaseModel());
     }
+    static databaseRelationShips() {
+        database_1.DataBase.setRelationships();
+    }
     static model() {
         return database_1.DataBase.databaseModel();
     }

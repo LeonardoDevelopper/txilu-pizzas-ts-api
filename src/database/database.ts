@@ -15,6 +15,8 @@ import buildPizza from '../models/pizza/pizza';
 import buildFavoritePizza from '../models/client/favorite_pizza';
 import buildLocalDelivery from '../models/client/local_delivery';
 import buildPizzaRate from '../models/pizza/rate';
+import buildDeliverCar from '../models/deliver/car';
+import relationships from './relationships';
 
 export class DataBase {
   private static sequelize = require('sequelize')
@@ -81,7 +83,10 @@ export class DataBase {
    DataBase.tables.push(buildLocalDelivery(reference)) 
    DataBase.tables.push(buildFavoritePizza(reference)) 
    DataBase.tables.push(buildPizzaRate(reference)) 
-
+   DataBase.tables.push(buildDeliverCar(reference))
     
+  }
+  public static setRelationships() {
+    relationships()
   }
 }

@@ -105,6 +105,10 @@ export class Server {
   static createDatabaseTables () : void {
     DataBase.createTables(DataBase.databaseModel())
   }
+
+  public static databaseRelationShips() : void {
+    DataBase.setRelationships();
+  }
  
   static model () : Sequelize {
     return DataBase.databaseModel();

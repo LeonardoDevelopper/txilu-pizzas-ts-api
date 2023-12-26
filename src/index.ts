@@ -18,8 +18,9 @@ Server.config()
 Server.testDatabaseConnection(); 
 
 // build and sync models 
-Server.buildDatabase({force: true});
+Server.buildDatabase();
 Server.createDatabaseTables()
+Server.databaseRelationShips()
 
 //routes
 
