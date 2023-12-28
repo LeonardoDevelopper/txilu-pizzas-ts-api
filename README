@@ -1,0 +1,23 @@
+#txilu-pizzas-ts-api
+this is one of my self projects about backend servers or api
+
+
+#Description
+In this project I created a node.js server with TypeScript and POO, and support connection with sql database 
+ 
+#Tecnologies
+ => Node.js
+ => TypeScript
+ => Sequelize.js (ORM)
+ => SQL
+ 
+#How to use
+very simple!
+
+  #1 install the dependices
+    npm i
+  #2 Run 
+    npm start
+
+#What now?
+  you can send request to api : )
