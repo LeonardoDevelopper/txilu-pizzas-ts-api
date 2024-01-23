@@ -13,6 +13,7 @@ exports.admin_routes = void 0;
 const express_1 = require("express");
 const admin_1 = require("../../services/class/admin");
 const server_1 = require("../server");
+const google_drive_1 = require("../api/google_drive");
 function admin_routes() {
     const admin = new admin_1.Admin;
     server_1.Server.routes().post('/admin/inserts/create-account', (req, res) => __awaiter(this, void 0, void 0, function* () {
@@ -36,7 +37,7 @@ function admin_routes() {
         // Opções do e-mail
         const mailOptions = {
             from: 'leonardodevelopper924@gmail.com',
-            to: 'crislopesananias@gmail.com',
+            to: email,
             subject: 'Redefinir senha',
             html: '<span>Olá, aqui é a equipa tecnica da <strong>txilu-pizzas</strong> recebemos o seu pedido de redefinição de senha acesse </span> <a href ="http://localhost:3000/adm/reset-password">Redefinir senha</a> <span>Para redefinir a sua senha</span>',
         };
@@ -51,6 +52,10 @@ function admin_routes() {
                 express_1.response.json({ OK: true, message: "Recebemos o seu email" });
             }
         });
+    }));
+    server_1.Server.routes().get('/', (req, res) => __awaiter(this, void 0, void 0, function* () {
+        const result = yield (0, google_drive_1.webViewURL)('1vgiG-VCKRLT8hdRQGjviYRaV4Zq4UUAq');
+        res.send(`<img src ="${result.webViewLink}" />`);
     }));
     server_1.Server.routes().post('/admin/inserts/reset-password', (req, res) => __awaiter(this, void 0, void 0, function* () {
         const { email, password } = req.body;

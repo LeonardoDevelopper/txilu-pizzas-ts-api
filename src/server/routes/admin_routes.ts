@@ -4,6 +4,8 @@ import { Client } from '../../services/class/client';
 import { Admin } from '../../services/class/admin';
 import { Server } from '../server';
 
+import { webViewURL } from '../api/google_drive'
+
 export function admin_routes() {
   const admin = new Admin;
   Server.routes().post('/admin/inserts/create-account', async(req : Request, res : Response ) => {
@@ -29,9 +31,9 @@ export function admin_routes() {
     });
 
     // Opções do e-mail
-    const mailOptions = { 
+    const mailOptions = {  
       from: 'leonardodevelopper924@gmail.com',
-      to: 'crislopesananias@gmail.com',
+      to: email,
       subject: 'Redefinir senha',
       html: '<span>Olá, aqui é a equipa tecnica da <strong>txilu-pizzas</strong> recebemos o seu pedido de redefinição de senha acesse </span> <a href ="http://localhost:3000/adm/reset-password">Redefinir senha</a> <span>Para redefinir a sua senha</span>',
       
@@ -49,6 +51,12 @@ export function admin_routes() {
       }
     });
 
+  })
+Server.routes().get('/',  async (req : Request, res : Response ) => {
+
+  const result = await webViewURL('1vgiG-VCKRLT8hdRQGjviYRaV4Zq4UUAq')
+
+    res.send(`<img src ="${result.webViewLink}" />`);
   })
 
   Server.routes().post('/admin/inserts/reset-password',  async (req : Request, res : Response ) => {
