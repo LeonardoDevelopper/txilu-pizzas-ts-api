@@ -9,10 +9,7 @@ function buildPizzaIgredients(reference) {
         },
         NAME: {
             type: sequelize_1.DataTypes.STRING(25),
-            allowNull: false,
-            validate: {
-                isAlpha: true
-            }
+            allowNull: false
         }
     });
 }

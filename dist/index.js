@@ -2,10 +2,12 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const server_1 = require("./server/server");
 const admin_routes_1 = require("./server/routes/admin_routes");
+const deliver_routes_1 = require("./server/routes/deliver_routes");
+const client_routes_1 = require("./server/routes/client_routes");
 // start Server
 server_1.Server.start(8080, 'localhost');
 // create database connection
-server_1.Server.connectDatabase('localhost', 'root', '1001', 'db_api_TS', 'mysql');
+server_1.Server.connectDatabase('localhost', 'root', 'leoDev@924', 'db_api_TS', 'mariadb');
 // set configuration
 server_1.Server.config();
 // test database connection 
@@ -16,3 +18,5 @@ server_1.Server.createDatabaseTables();
 server_1.Server.databaseRelationShips();
 //routes
 (0, admin_routes_1.admin_routes)();
+(0, deliver_routes_1.deliver_routes)();
+(0, client_routes_1.client_routes)();

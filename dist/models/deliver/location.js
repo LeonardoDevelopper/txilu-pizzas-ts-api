@@ -8,11 +8,11 @@ function buildDeliverLocation(reference) {
             primaryKey: true
         },
         LAT: {
-            type: sequelize_1.DataTypes.STRING(25),
+            type: sequelize_1.DataTypes.INTEGER,
             allowNull: false
         },
         LON: {
-            type: sequelize_1.DataTypes.STRING(25),
+            type: sequelize_1.DataTypes.INTEGER,
             allowNull: false,
         }
     });

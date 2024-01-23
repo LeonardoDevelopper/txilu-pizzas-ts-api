@@ -17,9 +17,7 @@ function buildPizza(reference) {
         NAME: {
             type: sequelize_1.DataTypes.STRING(25),
             allowNull: false,
-            validate: {
-                isAlpha: true
-            }
+            unique: true
         },
         PRICE: {
             type: sequelize_1.DataTypes.INTEGER,

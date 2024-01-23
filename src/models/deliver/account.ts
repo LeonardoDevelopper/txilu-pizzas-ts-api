@@ -10,26 +10,36 @@ export default function buildDeliver(reference : Sequelize) : ModelCtor<Model<an
     PHOTO: {
       type: DataTypes.STRING,
       allowNull: false,
-      defaultValue : "https://google.com/pendding.png",
       validate : {
         isUrl: true,
       }
-
-  },
-    NAME: {
-        type: DataTypes.STRING,
+    },
+    USERNAME: {
+        type: DataTypes.STRING(15),
         allowNull: false,
-        defaultValue : "pendding",
+        defaultValue : "username",
+        validate: {
+            isAlphanumeric : true 
+        }
+    },
+    FIRST_NAME: {
+        type: DataTypes.STRING(15),
+        allowNull: false,
         validate: {
             isAlpha : true 
         }
-
+    },
+    LAST_NAME: {
+        type: DataTypes.STRING(15),
+        allowNull: false,
+        validate: {
+            isAlpha : true 
+        }
     },
     EMAIL:{
         type: DataTypes.STRING(35),
         allowNull: false,
         unique: true,
-        defaultValue : "pendding@gmail.com",
         validate : {
             isEmail  : true,
         }
@@ -38,13 +48,12 @@ export default function buildDeliver(reference : Sequelize) : ModelCtor<Model<an
         type: DataTypes.INTEGER,
         allowNull: false,
         unique: true,
-        defaultValue : "000000000",
         validate:{
             isNumeric : true
         }
     },
     PASS_WORD:{
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(15),
         allowNull: false,
         defaultValue : "pendding",
     }

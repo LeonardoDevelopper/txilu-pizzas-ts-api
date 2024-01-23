@@ -7,14 +7,27 @@ function buildClient(reference) {
             type: sequelize_1.DataTypes.UUID,
             primaryKey: true
         },
-        NAME: {
-            type: sequelize_1.DataTypes.STRING(25),
-            allowNull: false
+        FIRST_NAME: {
+            type: sequelize_1.DataTypes.STRING(15),
+            allowNull: false,
+            validate: {
+                isAlpha: true
+            }
+        },
+        LAST_NAME: {
+            type: sequelize_1.DataTypes.STRING(15),
+            allowNull: false,
+            validate: {
+                isAlpha: true
+            }
         },
         EMAIL: {
-            type: sequelize_1.DataTypes.STRING,
+            type: sequelize_1.DataTypes.STRING(25),
             allowNull: false,
-            unique: true
+            unique: true,
+            validate: {
+                isEmail: true
+            }
         },
         PHONE_NUMBER: {
             type: sequelize_1.DataTypes.INTEGER,
@@ -22,7 +35,7 @@ function buildClient(reference) {
             unique: true
         },
         PASS_WORD: {
-            type: sequelize_1.DataTypes.STRING(25),
+            type: sequelize_1.DataTypes.STRING(15),
             allowNull: false,
         }
     });

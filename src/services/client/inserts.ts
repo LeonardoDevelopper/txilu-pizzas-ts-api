@@ -1,29 +1,76 @@
-import { T_ResponseMessage } from "../../assets/types/types"
-
+import { res } from "../../assets/types/types"
+import { Server } from '../../server/server';
+const { randomUUID } = require("crypto");
+import { dbTables, dbTable } from '../../assets/types/types'
 export class ClientInserts {
-  private randomUUID = require("crypto");
-  private client : any = require("../../models/client/account");
-  
-  public create_account(name: string, email: string, phone: string, password: string ) : T_ResponseMessage {
-    return this.client.create({
-      ID: this.randomUUID(),
-      NAME: name,
-      EMAIL: email, 
-      PHONE_NUMBER: phone,
-      PASS_WORD: password
-    }).then(() => {
-        console.log("User account created : )")
-        return  {
-            OK: true,
-            message: "User account created : )"
-        }
-    })
-    .catch((error : Error) => {
-        console.log(error.message+ " : (")
-        return {
-            OK: false,
-            messageError: error.name + " : ("
-        }
-    })
+  private UUID = randomUUID;
+
+  private getTable (name : string) : dbTable | undefined {
+    console.log(Server.getDatabaseTables())
+    const aux = Server.getDatabaseTables().find((model) => name == model.getTableName())
+    return aux;
+  }
+
+  private response (status : boolean, message : string,  data? : any)  {
+    if (status)
+    {
+     return {
+       OK : status,
+       message : message,
+       data: data
+     }
+    }else 
+    {
+     return {
+       OK : false,
+       messageError : message
+     }
+    }
+   }
+  public create_account(
+    firstname: string, lastname: string, 
+    email: string, phone: number, password: string
+   ) {
+    const client = this.getTable("CLIENTs")
+    if(typeof client != "undefined")
+    {
+      return client.create({
+        ID: this.UUID(),
+        FIRST_NAME: firstname,
+        LAST_NAME: lastname,
+        EMAIL: email, 
+        PHONE_NUMBER: phone,
+        PASS_WORD: password
+      }).then(() => {
+          return this.response(true, 'User created successfully : )')
+      })
+      .catch((error : Error) => {
+          return this.response(false, 'Error: ' + error.message)
+      })
+    }
+    else {
+      return this.response(false, 'type of model is undefined')
+    }
+  }
+
+  public add_to_cart(clientID : string, quant : number, status: boolean, pizzaID : string)  {
+    const cart = this.getTable('CARTs');
+    if(typeof cart != 'undefined')
+    {
+      return cart.create({
+        ID: this.UUID(),
+        QUANT: quant,
+        STATUS: status,
+        CLIENTID : clientID,
+        PIZZAID: pizzaID
+      })
+      .then(() => {
+        return this.response(true, 'Pizza add to cart successfully : )')
+      })
+      .catch((error : Error) => {
+          return this.response(false, 'Error: ' + error.name)
+      })
+    }
+    return this.response(false, 'type of model is undefined')
   }
 }

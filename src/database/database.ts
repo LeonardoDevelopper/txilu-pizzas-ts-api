@@ -14,7 +14,6 @@ import buildPizza from '../models/pizza/pizza';
 import buildFavoritePizza from '../models/client/favorite_pizza';
 import buildLocalDelivery from '../models/client/local_delivery';
 import buildPizzaRate from '../models/pizza/rate';
-import buildDeliverCar from '../models/deliver/car';
 import relationships from './relationships';
 import buildPizzaIgredients from '../models/pizza/igredients';
 
@@ -83,7 +82,6 @@ export class DataBase {
    DataBase.tables.push(buildLocalDelivery(reference)) 
    DataBase.tables.push(buildFavoritePizza(reference)) 
    DataBase.tables.push(buildPizzaRate(reference)) 
-   DataBase.tables.push(buildDeliverCar(reference))
    DataBase.tables.push(buildPizzaIgredients(reference))
     
   }

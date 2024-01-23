@@ -8,11 +8,11 @@ export default function buildAdminLocation(reference : Sequelize) : ModelCtor<Mo
         primaryKey: true
     },
     LAT: {
-        type: DataTypes.STRING(30),
+        type: DataTypes.INTEGER,
         allowNull: false
     },
     LON:{
-        type: DataTypes.STRING(30),
+        type: DataTypes.INTEGER,
         allowNull: false,
     }
     })

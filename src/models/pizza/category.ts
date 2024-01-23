@@ -10,12 +10,9 @@ export default function buildCategory(reference : Sequelize) : ModelCtor<Model<a
     NAME: {
         type: DataTypes.STRING(25),
         allowNull: false,
-        unique: true,
-        validate : {
-            isAlpha : true
-        }
+        unique: true
 
-    }
+        }
     })
 
  }

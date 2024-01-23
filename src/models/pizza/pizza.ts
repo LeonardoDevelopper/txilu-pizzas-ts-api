@@ -18,9 +18,7 @@ export default function buildPizza(reference : Sequelize) : ModelCtor<Model<any,
     NAME:{
         type: DataTypes.STRING(25),
         allowNull: false,
-        validate : {
-            isAlpha : true
-        }
+        unique: true
 
     },
     PRICE: {

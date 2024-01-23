@@ -10,10 +10,7 @@ function buildCategory(reference) {
         NAME: {
             type: sequelize_1.DataTypes.STRING(25),
             allowNull: false,
-            unique: true,
-            validate: {
-                isAlpha: true
-            }
+            unique: true
         }
     });
 }

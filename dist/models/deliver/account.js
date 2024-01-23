@@ -10,15 +10,28 @@ function buildDeliver(reference) {
         PHOTO: {
             type: sequelize_1.DataTypes.STRING,
             allowNull: false,
-            defaultValue: "https://google.com/pendding.png",
             validate: {
                 isUrl: true,
             }
         },
-        NAME: {
-            type: sequelize_1.DataTypes.STRING,
+        USERNAME: {
+            type: sequelize_1.DataTypes.STRING(15),
             allowNull: false,
-            defaultValue: "pendding",
+            defaultValue: "username",
+            validate: {
+                isAlphanumeric: true
+            }
+        },
+        FIRST_NAME: {
+            type: sequelize_1.DataTypes.STRING(15),
+            allowNull: false,
+            validate: {
+                isAlpha: true
+            }
+        },
+        LAST_NAME: {
+            type: sequelize_1.DataTypes.STRING(15),
+            allowNull: false,
             validate: {
                 isAlpha: true
             }
@@ -27,7 +40,6 @@ function buildDeliver(reference) {
             type: sequelize_1.DataTypes.STRING(35),
             allowNull: false,
             unique: true,
-            defaultValue: "pendding@gmail.com",
             validate: {
                 isEmail: true,
             }
@@ -36,13 +48,12 @@ function buildDeliver(reference) {
             type: sequelize_1.DataTypes.INTEGER,
             allowNull: false,
             unique: true,
-            defaultValue: "000000000",
             validate: {
                 isNumeric: true
             }
         },
         PASS_WORD: {
-            type: sequelize_1.DataTypes.STRING,
+            type: sequelize_1.DataTypes.STRING(15),
             allowNull: false,
             defaultValue: "pendding",
         }

@@ -23,6 +23,12 @@ class Server {
         try {
             Server.starter.use(Server.express.json());
             Server.starter.use(Server.express.urlencoded({ extended: false }));
+            Server.starter.use((req, res, next) => {
+                res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000'); // Defina o domínio do front-end (Next.js)
+                res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+                res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+                next();
+            });
             console.log('\x1b[32m%s\x1b[0m', "[config] : server config loaded : )");
         }
         catch (error) {

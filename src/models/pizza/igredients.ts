@@ -9,10 +9,7 @@ export default function buildPizzaIgredients(reference : Sequelize) : ModelCtor<
     },
     NAME: {
         type: DataTypes.STRING(25),
-        allowNull: false,
-        validate : {
-            isAlpha : true
-        }
+        allowNull: false
 
       }
     })

@@ -8,12 +8,12 @@ export default function buildOrder(reference : Sequelize) : ModelCtor<Model<any,
         primaryKey: true,
     },
     LAT: {
-        type: DataTypes.STRING(25),
+        type: DataTypes.INTEGER,
         allowNull: false
 
     },
     LON:{
-        type: DataTypes.STRING(25),
+        type: DataTypes.INTEGER,
         allowNull: false
 
     },

@@ -7,14 +7,27 @@ export default function buildClient(reference : Sequelize) : ModelCtor<Model<any
         type: DataTypes.UUID,
         primaryKey: true
     },
-    NAME: {
-        type: DataTypes.STRING(25),
-        allowNull: false
+    FIRST_NAME: {
+        type: DataTypes.STRING(15),
+        allowNull: false,
+        validate : {
+            isAlpha : true
+        }
+    },
+    LAST_NAME: {
+        type: DataTypes.STRING(15),
+        allowNull: false,
+        validate : {
+            isAlpha : true
+        }
     },
     EMAIL:{
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(25),
         allowNull: false,
-        unique: true
+        unique: true,
+        validate : {
+            isEmail : true
+        }
     },
     PHONE_NUMBER:{
         type: DataTypes.INTEGER,
@@ -22,7 +35,7 @@ export default function buildClient(reference : Sequelize) : ModelCtor<Model<any
         unique: true
     },
     PASS_WORD:{
-        type: DataTypes.STRING(25),
+        type: DataTypes.STRING(15),
         allowNull: false,
     }
     })

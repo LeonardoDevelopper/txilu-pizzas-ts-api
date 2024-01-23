@@ -16,7 +16,21 @@ function buildCart(reference) {
             type: sequelize_1.DataTypes.BOOLEAN,
             allowNull: false,
             defaultValue: false
-        }
+        },
+        PIZZAID: {
+            type: sequelize_1.DataTypes.UUID,
+            references: {
+                model: 'PIZZAs',
+                key: 'ID',
+            },
+        },
+    }, {
+        indexes: [
+            {
+                unique: true,
+                fields: ['PIZZAID'],
+            },
+        ],
     });
 }
 exports.default = buildCart;

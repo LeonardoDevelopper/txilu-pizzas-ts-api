@@ -8,12 +8,12 @@ export default function buildDeliverLocation(reference : Sequelize) : ModelCtor<
         primaryKey: true
     },
     LAT: {
-        type: DataTypes.STRING(25),
+        type: DataTypes.INTEGER,
         allowNull: false
 
     },
     LON:{
-        type: DataTypes.STRING(25),
+        type: DataTypes.INTEGER,
         allowNull: false,
     }
     })

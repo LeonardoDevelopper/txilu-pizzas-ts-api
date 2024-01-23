@@ -12,6 +12,21 @@ class AdminInserts {
         const aux = server_1.Server.getDatabaseTables().find((model) => name == model.getTableName());
         return aux;
     }
+    response(status, message, data) {
+        if (status) {
+            return {
+                OK: status,
+                message: message,
+                data: data
+            };
+        }
+        else {
+            return {
+                OK: false,
+                messageError: message
+            };
+        }
+    }
     create_account(name, email, phone, password) {
         const admin = this.getTable('ADMINs');
         if (typeof admin != 'undefined') {
@@ -21,65 +36,57 @@ class AdminInserts {
                 EMAIL: email,
                 PHONE_NUMBER: phone,
                 PASS_WORD: password
-            }).then((model) => {
-                console.log("User account created : )" + model);
-                return {
-                    OK: true,
-                    message: "User account created : )"
-                };
+            }).then((data) => {
+                return this.response(true, 'User account created : )', data);
             })
                 .catch((error) => {
-                console.log(error.message + " : (");
-                return {
-                    OK: false,
-                    messageError: error.name + " : ("
-                };
+                return this.response(false, error.name);
             });
         }
-        return {
-            OK: false,
-            messageError: "Error: model is type of undefined  : ("
-        };
+        return this.response(false, 'Error: model is type of undefined  : (');
     }
-    create_deliver_account(ID, board, carPhoto, color, name, model) {
+    set_admin_location(lat, lon, adminID) {
+        const admin_location = this.getTable('ADMIN_LOCATIONs');
+        if (typeof admin_location != 'undefined') {
+            return admin_location.create({
+                ID: this.UUID(),
+                LAT: lat,
+                LON: lon,
+                ADMINID: adminID
+            }).then(() => {
+                return this.response(true, 'Admin location updated successfully');
+            }).catch((error) => {
+                return this.response(false, 'Error:' + error.message);
+            });
+        }
+        else {
+            return this.response(false, 'Error: model is type of undefined  : (');
+        }
+    }
+    create_deliver_account(ID, photo, firstname, lastname, email, phone) {
         const deliver = this.getTable('DELIVERs');
         const car = this.getTable('CARs');
-        if (typeof deliver != 'undefined' && typeof car != 'undefined') {
-            return deliver.create({
-                ID: ID
-            })
-                .then((deliver) => {
-                return car.create({
-                    ID: board,
-                    PHOTO: carPhoto,
-                    NAME: name,
-                    MODEL: model,
-                    COLOR: color,
-                    DELIVERID: ID
-                }).then(() => {
-                    return {
-                        OK: true,
-                        message: "Deliver account created : )"
-                    };
-                }).catch((error) => {
-                    return {
-                        OK: false,
-                        messageError: error.message + " : ("
-                    };
+        const deliver_location = this.getTable('DELIVER_LOCATIONs');
+        if (typeof deliver != 'undefined' && typeof car != 'undefined' && typeof deliver_location != 'undefined') {
+            deliver.create({
+                ID: ID,
+                PHOTO: photo,
+                FIRST_NAME: firstname,
+                LAST_NAME: lastname,
+                EMAIL: email,
+                PHONE_NUMBER: phone
+            });
+            //necessita tratamento de erro!
+            deliver.addHook('afterCreate', (deliver) => {
+                deliver_location.create({
+                    ID: this.UUID(),
+                    LAT: 0,
+                    LON: 0,
+                    DELIVERID: deliver.dataValues.ID,
                 });
-            })
-                .catch((error) => {
-                console.log(error.message + " : (");
-                return {
-                    OK: false,
-                    messageError: error.message + " : ("
-                };
             });
         }
-        return {
-            OK: false,
-            messageError: "Error: model is type of undefined  : ("
-        };
+        return this.response(false, 'Error: model is type of undefined  : (');
     }
     create_pizza_category(name) {
         const category = this.getTable("CATEGORies");
@@ -90,57 +97,39 @@ class AdminInserts {
                 NAME: name
             })
                 .then(() => {
-                return {
-                    OK: true,
-                    message: "Pizza category created : )"
-                };
+                return this.response(true, "Pizza category created : )");
             }).catch((error) => {
-                return {
-                    OK: false,
-                    messageError: error.message + " : ("
-                };
+                return this.response(false, error.message);
             });
         }
-        return {
-            OK: false,
-            messageError: "Error: model is type of undefined  : ("
-        };
+        return this.response(false, "Error: model is type of undefined  : (");
     }
     create_pizza(name, photo, price, status, category, igredients) {
         const pizzas = this.getTable("PIZZAs");
-        if (typeof pizzas != 'undefined') {
+        const igredient = this.getTable('IGREDIENTs');
+        if (typeof pizzas != 'undefined' && typeof igredient != 'undefined') {
             const pizzaID = this.UUID();
-            return pizzas.create({
+            pizzas.create({
                 ID: pizzaID,
                 NAME: name,
                 PHOTO: photo,
                 PRICE: price,
                 STATUS: status,
                 CATEGORYID: category
-            })
-                .then(() => {
-                const ingredient = this.getTable('IGREDIENTs');
-                if (typeof ingredient != 'undefined') {
-                    igredients.forEach((igre) => {
-                        ingredient.create({ NAME: igre, PIZZAID: pizzaID });
-                    });
-                    console.log("pizza created : )");
-                }
-                return {
-                    OK: true,
-                    message: "Pizza created : )"
-                };
-            }).catch((error) => {
-                return {
-                    OK: false,
-                    messageError: error.message + " : ("
-                };
+            }).then().catch((error) => { this.objResponse = this.response(false, error.message); });
+            pizzas.addHook('afterCreate', (pizza) => {
+                igredients.forEach((igre) => {
+                    igredient.create({ ID: this.UUID(), NAME: igre, PIZZAID: pizza.dataValues.ID })
+                        .then(() => { this.objResponse = this.response(false, 'Pizza created'); })
+                        .catch((error) => { this.objResponse = this.response(false, error.message); });
+                });
             });
         }
-        return {
-            OK: false,
-            messageError: "Error: model is type of undefined  : ("
-        };
+        else {
+            this.objResponse = this.response(false, 'Models type is undefined');
+        }
+        // possivel bug
+        return this.objResponse;
     }
 }
 exports.AdminInserts = AdminInserts;

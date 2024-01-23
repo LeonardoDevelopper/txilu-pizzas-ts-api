@@ -1,6 +1,6 @@
 import { Dialect, Model, ModelCtor, Sequelize, SyncOptions } from 'sequelize';
 import { DataBase } from '../database/database';
-import { Router } from 'express';
+import { Response, Router, Request } from 'express';
 export type Force = {force: boolean} | null;
 export type Protocol = 'localhost' | 'http' | 'https';
 export class Server {
@@ -22,6 +22,12 @@ export class Server {
     try {
       Server.starter.use(Server.express.json());
       Server.starter.use(Server.express.urlencoded({extended: false}))
+      Server.starter.use((req : Request, res : Response, next : any) => {
+        res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000' ); // Defina o domínio do front-end (Next.js)
+        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+        res.setHeader('Access-Control-Allow-Headers', 'Content-Type'); 
+        next();
+    }); 
       console.log('\x1b[32m%s\x1b[0m',"[config] : server config loaded : )")
     } catch (error) {
       console.log('\x1b[31m%s\x1b[0m', '[error] : server config cannot be loaded : (')
@@ -50,12 +56,12 @@ export class Server {
 
   public static routes () : any {
     return Server.starter
-  }
+  } 
 
   static async use (origin : string, option : Router) : Promise<void> {
     Server.starter.use(origin, option);
   }
-  static routers() : void {
+  static routers() : void { 
     try {
       console.log('\x1b[36m%s\x1b[0m',"[routes] : including server routes...")
       Server.starter.use('', Server);
@@ -63,7 +69,7 @@ export class Server {
     } catch (error) {
       console.log('\x1b[31m%s\x1b[0m',"[error] : cannot include server routes : ("+error)
     }
-  }
+  } 
   
   // database methods
   static async connectDatabase(

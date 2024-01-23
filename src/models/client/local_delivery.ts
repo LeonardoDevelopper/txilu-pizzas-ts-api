@@ -8,15 +8,15 @@ export default function buildLocalDelivery(reference : Sequelize) : ModelCtor<Mo
             primaryKey: true,
         },
         LAT: {
-            type: DataTypes.STRING(25),
+            type: DataTypes.INTEGER,
             allowNull: false
         },
         LON:{
-            type: DataTypes.STRING(25),
+            type: DataTypes.INTEGER,
             allowNull: false
         },
         NAME:{
-            type: DataTypes.STRING(25),
+            type: DataTypes.INTEGER,
             allowNull: false,
             unique: true
         }
