@@ -50,7 +50,7 @@ export class AdminInserts {
     return this.response(false, 'Error: model is type of undefined  : (')
   }
 
-  public set_admin_location(lat : string, lon : string, adminID : string)  {
+  public set_admin_location(adminID : string, lat : string, lon : string )  {
     const admin_location = this.getTable('ADMIN_LOCATIONs')
     if(typeof admin_location != 'undefined')
     {

@@ -45,7 +45,7 @@ class AdminInserts {
         }
         return this.response(false, 'Error: model is type of undefined  : (');
     }
-    set_admin_location(lat, lon, adminID) {
+    set_admin_location(adminID, lat, lon) {
         const admin_location = this.getTable('ADMIN_LOCATIONs');
         if (typeof admin_location != 'undefined') {
             return admin_location.create({

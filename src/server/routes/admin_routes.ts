@@ -68,9 +68,11 @@ Server.routes().get('/',  async (req : Request, res : Response ) => {
   })
 
   Server.routes().post('/admin/inserts/set-location', async (req : Request, res : Response) => {
-    const { lat, lon, adminID } = req.body.data;
-    const dbResponse = await admin.inserts.set_admin_location(lat, lon, adminID);
-    res.json(dbResponse)
+    const { ID, coords } = req.body.data;
+    console.log(req.body)  
+    const dbResponse = await admin.inserts.set_admin_location(ID, coords.lat, coords.lon);
+    console.log(dbResponse)
+    res.json(dbResponse) 
   }) 
 
   Server.routes().post('/admin/inserts/create-deliver-account', async (req : Request, res : Response ) => {

@@ -8,11 +8,11 @@ function buildAdminLocation(reference) {
             primaryKey: true
         },
         LAT: {
-            type: sequelize_1.DataTypes.INTEGER,
+            type: sequelize_1.DataTypes.DOUBLE,
             allowNull: false
         },
         LON: {
-            type: sequelize_1.DataTypes.INTEGER,
+            type: sequelize_1.DataTypes.DOUBLE,
             allowNull: false,
         }
     });

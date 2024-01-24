@@ -65,8 +65,10 @@ function admin_routes() {
         res.json(dbResponse);
     }));
     server_1.Server.routes().post('/admin/inserts/set-location', (req, res) => __awaiter(this, void 0, void 0, function* () {
-        const { lat, lon, adminID } = req.body.data;
-        const dbResponse = yield admin.inserts.set_admin_location(lat, lon, adminID);
+        const { ID, coords } = req.body.data;
+        console.log(req.body);
+        const dbResponse = yield admin.inserts.set_admin_location(ID, coords.lat, coords.lon);
+        console.log(dbResponse);
         res.json(dbResponse);
     }));
     server_1.Server.routes().post('/admin/inserts/create-deliver-account', (req, res) => __awaiter(this, void 0, void 0, function* () {
