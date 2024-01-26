@@ -52,5 +52,15 @@ export class AdminSelects {
     }
     return this.response(false, 'Error: model is type of undefined  : (')
   }
+  async getCategories()  {
+      const categories = this.getTable('CATEGORies')
+      if(typeof categories != 'undefined')
+      { 
+        return await categories.findAll()
+        .then((data) => this.response(true, 'Todas as categorias', data) )
+        .catch((error : Error) => this.response(false, error.name))
 
-}
+      }
+      return this.response(false, 'Error: model is type of undefined  : (')
+    }
+  }
