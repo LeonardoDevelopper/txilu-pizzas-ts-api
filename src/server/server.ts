@@ -22,6 +22,7 @@ export class Server {
     try {
       Server.starter.use(Server.express.json());
       Server.starter.use(Server.express.urlencoded({extended: false}))
+      Server.starter.use('/uploads', Server.express.static('uploads'))
       Server.starter.use((req : Request, res : Response, next : any) => {
         res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000' ); // Defina o domínio do front-end (Next.js)
         res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');

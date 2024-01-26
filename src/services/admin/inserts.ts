@@ -122,7 +122,7 @@ export class AdminInserts {
     return this.response(false, "Error: model is type of undefined  : (")
   }
   
-  public create_pizza(name: string, photo: URL, price : number, status : string, category : string, igredients : Array<string>)  {
+  public create_pizza(name: string, photo: URL, price : number, status : string, categoryId : string, igredients : Array<string>)  {
     const pizzas = this.getTable("PIZZAs");
     const igredient = this.getTable('IGREDIENTs');
 
@@ -135,7 +135,7 @@ export class AdminInserts {
           PHOTO: photo,
           PRICE: price,
           STATUS: status,
-          CATEGORYID : category
+          CATEGORYID : categoryId
         }).then().catch((error : Error) => {this.objResponse = this.response(false, error.message)})
 
         pizzas.addHook('afterCreate', (pizza) => {

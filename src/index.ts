@@ -13,7 +13,7 @@ import path from 'path'
 Server.start(8080, 'localhost');
 
 // create database connection
-Server.connectDatabase('localhost', 'root', '1001', 'db_api_TS', 'mysql')
+Server.connectDatabase('localhost', 'root', 'leoDev@924', 'db_api_TS', 'mysql')
 
 // set configuration
 Server.config()
@@ -33,4 +33,4 @@ deliver_routes()
 client_routes()
 
 //uploadFile()
-webViewURL('1vgiG-VCKRLT8hdRQGjviYRaV4Zq4UUAq')
+//webViewURL('1vgiG-VCKRLT8hdRQGjviYRaV4Zq4UUAq')

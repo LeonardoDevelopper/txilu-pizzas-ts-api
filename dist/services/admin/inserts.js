@@ -104,7 +104,7 @@ class AdminInserts {
         }
         return this.response(false, "Error: model is type of undefined  : (");
     }
-    create_pizza(name, photo, price, status, category, igredients) {
+    create_pizza(name, photo, price, status, categoryId, igredients) {
         const pizzas = this.getTable("PIZZAs");
         const igredient = this.getTable('IGREDIENTs');
         if (typeof pizzas != 'undefined' && typeof igredient != 'undefined') {
@@ -115,7 +115,7 @@ class AdminInserts {
                 PHOTO: photo,
                 PRICE: price,
                 STATUS: status,
-                CATEGORYID: category
+                CATEGORYID: categoryId
             }).then().catch((error) => { this.objResponse = this.response(false, error.message); });
             pizzas.addHook('afterCreate', (pizza) => {
                 igredients.forEach((igre) => {
