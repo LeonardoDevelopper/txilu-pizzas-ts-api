@@ -3,7 +3,7 @@ import { Deliver } from '../../services/class/deliver';
 import { Client } from '../../services/class/client';
 import { Admin } from '../../services/class/admin';
 import { Server } from '../server';
-
+import { randomUUID } from 'crypto'
 import path from 'path'
 import multer from 'multer'
 
@@ -16,7 +16,8 @@ const storage = multer.diskStorage({
 
   },
   filename : function(req, file, cb){
-    cb(null, file.filename + '-' + Date.now() + path.extname(file.originalname))
+    cb(null, randomUUID() + path.extname(file.originalname))
+    console.log(req)
   }
 })
 const upload = multer({storage : storage})
@@ -107,9 +108,9 @@ Server.routes().get('/',  async (req : Request, res : Response ) => {
 
   Server.routes().post('/admin/inserts/create-pizza', upload.single('photo'),  async (req : Request, res : Response ) => {
     console.log(req.body);
-    //const { name, photo, price, status, category, igredients } = req.body.data ;
-    //const dbResponse = await admin.inserts.create_pizza(name, photo ,price, status, category, igredients)
-    //res.json(dbResponse);
+    const { name, photo, price, status, category, igredients } = req.body.data ;
+    const dbResponse = await admin.inserts.create_pizza(id, name, photo ,price, status, category, igredients)
+    res.json(dbResponse);
 
 
   })

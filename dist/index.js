@@ -7,7 +7,7 @@ const client_routes_1 = require("./server/routes/client_routes");
 // start Server
 server_1.Server.start(8080, 'localhost');
 // create database connection
-server_1.Server.connectDatabase('localhost', 'root', 'leoDev@924', 'db_api_TS', 'mysql');
+server_1.Server.connectDatabase('localhost', 'root', '1001', 'db_api_TS', 'mysql');
 // set configuration
 server_1.Server.config();
 // test database connection  

@@ -16,6 +16,7 @@ exports.admin_routes = void 0;
 const express_1 = require("express");
 const admin_1 = require("../../services/class/admin");
 const server_1 = require("../server");
+const crypto_1 = require("crypto");
 const path_1 = __importDefault(require("path"));
 const multer_1 = __importDefault(require("multer"));
 const google_drive_1 = require("../api/google_drive");
@@ -24,7 +25,8 @@ const storage = multer_1.default.diskStorage({
         cb(null, 'uploads/');
     },
     filename: function (req, file, cb) {
-        cb(null, file.filename + '-' + Date.now() + path_1.default.extname(file.originalname));
+        cb(null, (0, crypto_1.randomUUID)() + path_1.default.extname(file.originalname));
+        console.log(req);
     }
 });
 const upload = (0, multer_1.default)({ storage: storage });
@@ -97,9 +99,9 @@ function admin_routes() {
     }));
     server_1.Server.routes().post('/admin/inserts/create-pizza', upload.single('photo'), (req, res) => __awaiter(this, void 0, void 0, function* () {
         console.log(req.body);
-        //const { name, photo, price, status, category, igredients } = req.body.data ;
-        //const dbResponse = await admin.inserts.create_pizza(name, photo ,price, status, category, igredients)
-        //res.json(dbResponse);
+        const { name, photo, price, status, category, igredients } = req.body.data;
+        const dbResponse = yield admin.inserts.create_pizza(id, name, photo, price, status, category, igredients);
+        res.json(dbResponse);
     }));
     server_1.Server.routes().post('/admin/selects/get-account', (req, res) => __awaiter(this, void 0, void 0, function* () {
         const { any, password } = req.body.data;
