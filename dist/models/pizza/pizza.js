@@ -28,6 +28,10 @@ function buildPizza(reference) {
             allowNull: false,
             defaultValue: "alaviable"
         },
+        DESC: {
+            type: sequelize_1.DataTypes.STRING,
+            allowNull: false,
+        },
     });
 }
 exports.default = buildPizza;

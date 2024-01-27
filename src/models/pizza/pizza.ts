@@ -31,6 +31,10 @@ export default function buildPizza(reference : Sequelize) : ModelCtor<Model<any,
         allowNull: false,
         defaultValue: "alaviable"
     },
+    DESC:{
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
     })
 
 }

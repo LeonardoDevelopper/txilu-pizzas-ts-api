@@ -1,37 +1,41 @@
 import multer, { Multer } from 'multer'
 import path from 'path'
 import { webViewURL } from '../api/google_drive'
-
+import {randomUUID} from 'crypto'
 export default class Storage {
 
-    public setFile!: Multer;
     private ext! : string;
+    private ID! : string
     
-    constructor(private folder : string, private ID : string) {
+    constructor(private folder : string, ) {
         this.folder = folder;
-        this.upload()
     }
 
-    private upload() {
-
+    private upload(id : string) {
+        this.ID = id
         const storage = multer.diskStorage({
             destination : (req, file, cb) => {
                 cb(null, "uploads/"+this.folder)
             },
             filename : (req, file, cb) => {
-                cb(null, this.ID + path.extname(file.originalname))
+                cb(null, id + path.extname(file.originalname))
                 this.ext = path.extname(file.originalname)
-                console.log(req)
             }
         })
-        this.setFile =  multer({ storage : storage }) 
+        return multer({ storage : storage }) 
 
     }
+
+    public setFile()
+    {
+        return this.upload(randomUUID())        
+    }
+
     public getId() {
         return this.ID;
     }
 
-    public createPath() {
+    public createWebLinkView()  {
         return `http://192.168.130.241:8080/uploads/${this.folder}/${this.ID}${this.ext}`
 
     }

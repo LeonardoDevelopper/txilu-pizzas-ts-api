@@ -7,7 +7,17 @@ import { Error, Model, Sequelize } from 'sequelize';
 import { Sequence } from "mysql2/typings/mysql/lib/protocol/sequences/Sequence";
 export class AdminInserts {
   private UUID = randomUUID;
-  private objResponse: any;
+  private objResponse!: {
+    OK: true;
+    message: string;
+    data: any;
+    messageError?: undefined;
+} | {
+    OK: boolean;
+    messageError: string;
+    message?: undefined;
+    data?: undefined;
+};
   private getTable (name : string) : dbTable | undefined {
     console.log(Server.getDatabaseTables())
     const aux = Server.getDatabaseTables().find((model) => name == model.getTableName())
@@ -122,34 +132,40 @@ export class AdminInserts {
     return this.response(false, "Error: model is type of undefined  : (")
   }
   
-  public create_pizza(name: string, photo: URL, price : number, status : string, categoryId : string, igredients : Array<string>)  {
+  public async create_pizza( name: string, photo: string, price : number, status : string, categoryId : string, desc : string, igredients : Array<string>)  {
     const pizzas = this.getTable("PIZZAs");
     const igredient = this.getTable('IGREDIENTs');
+    var res;
 
     if (typeof pizzas != 'undefined' &&  typeof igredient != 'undefined')
     {
-      const pizzaID = this.UUID();
-        pizzas.create({
-          ID: pizzaID,
+        res = await pizzas.create({
+          ID: randomUUID(),
           NAME: name,
           PHOTO: photo,
           PRICE: price,
+          DESC : desc,
           STATUS: status,
           CATEGORYID : categoryId
-        }).then().catch((error : Error) => {this.objResponse = this.response(false, error.message)})
+        }).then(() => this.response(true, 'Pizza created'))
+        .catch((error : Error) => error //this.response(false, error.message)
+        )
 
         pizzas.addHook('afterCreate', (pizza) => {
           igredients.forEach((igre) => {
             igredient.create({ ID: this.UUID(), NAME: igre, PIZZAID: pizza.dataValues.ID})
-            .then(( ) => {this.objResponse = this.response(false, 'Pizza created')})
-            .catch((error : Error) => {this.objResponse = this.response(false, error.message)})
+            .then(( ) => {
+              res = this.response(true, 'Pizza created')
+            })
+            .catch((error : Error) => {
+              res = error //this.response(false, error.message)
+            })
           })
         })
     }else{
-      this.objResponse = this.response(false, 'Models type is undefined')
+      res = this.response(false, 'Models type is undefined')
     }
-    // possivel bug
-    return this.objResponse
+    return res;
   }
   
-}
+}  

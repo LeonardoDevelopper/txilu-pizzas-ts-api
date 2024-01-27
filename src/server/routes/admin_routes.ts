@@ -9,11 +9,13 @@ import multer from 'multer'
 
 import { webViewURL } from '../api/google_drive'
 import Storage from '../api/storage';
+import Email from '../api/nodemail';
 
-const up = new Storage('pizzas', randomUUID())
+const uploadPizzas = new Storage('pizzas')
 
 export function admin_routes() {
   const admin = new Admin;
+
   Server.routes().post('/admin/inserts/create-account', async(req : Request, res : Response ) => {
     console.log(req.body)
     const { name, email, phone, password } = req.body.data;
@@ -23,40 +25,10 @@ export function admin_routes() {
 
   Server.routes().post('/admin/request-reset-email',  async (req : Request, res : Response ) => {
 
-    const {email} = req.body
-    const nodemailer = require('nodemailer');
-    console.log(email)
-
-    // Configuração do transporte SMTP 
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-          user: 'txilupizzaslda@gmail.com',
-          pass: 'etde jdmp ipmt ydbo ',
-      },
-    });
-
-    // Opções do e-mail
-    const mailOptions = {  
-      from: 'leonardodevelopper924@gmail.com',
-      to: email,
-      subject: 'Redefinir senha',
-      html: '<span>Olá, aqui é a equipa tecnica da <strong>txilu-pizzas</strong> recebemos o seu pedido de redefinição de senha acesse </span> <a href ="http://localhost:3000/adm/reset-password">Redefinir senha</a> <span>Para redefinir a sua senha</span>',
-      
-    };
- 
-    // Enviar e-mail
-    transporter.sendMail(mailOptions, (error : any, info : any) => {
-      if (error) {
-          console.error('Erro ao enviar e-mail:', error);
-          response.json({OK: false, message: error.message});
-          
-      } else {
-          console.log('E-mail enviado:', info.response);
-          response.json({OK: true, message: "Recebemos o seu email"})
-      }
-    });
-
+    const emailReset = new Email()
+    const emailResponse = emailReset.sendEmail('leonardodevelopper924@gmail.com', 'Redefinir senha', '<span>Recebemos o seu pedido de redefinição de senha acesse </span> <a href ="http://localhost:3000/adm/reset-password">Redefinir senha</a> <span>Para redefinir a sua senha</span>')
+    console.log(emailResponse)
+    res.json(emailReset)
   })
 Server.routes().get('/',  async (req : Request, res : Response ) => {
 
@@ -96,13 +68,14 @@ Server.routes().get('/',  async (req : Request, res : Response ) => {
     res.json(dbResponse);
   })
 
-  Server.routes().post('/admin/inserts/create-pizza', up.setFile.single('photo'),  async (req : Request, res : Response ) => {
+  Server.routes().post('/admin/inserts/create-pizza', uploadPizzas.setFile().single('photo'),  async (req : Request, res : Response ) => {
     console.log(req.body);
-    console.log(up.getId())
-    console.log(up.createPath())
-     //const { name, price, status, category, igredients } = req.body.data ;
-    // const dbResponse = await admin.inserts.create_pizza(id, name, photo ,price, status, category)
-    // res.json(dbResponse);
+    console.log()
+    const { name, price, desc, category, igredients } = req.body ;
+    const dbResponse = await admin.inserts.create_pizza(name, uploadPizzas.createWebLinkView() ,price, 'Avaliable', category, desc, igredients.split(','))
+    console.log(dbResponse);
+     
+    res.json(dbResponse);
 
 
   })
@@ -121,5 +94,10 @@ Server.routes().get('/',  async (req : Request, res : Response ) => {
     console.log(dbResponse)
      res.json(dbResponse);
   })
-  
+
+  Server.routes().get('/admin/selects/get-pizzas',  async (req : Request, res : Response ) => {
+    const dbResponse = await admin.selects.getPizzas()
+    console.log(dbResponse)
+     res.json(dbResponse);
+  })
 }

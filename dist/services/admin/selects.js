@@ -67,5 +67,16 @@ class AdminSelects {
             return this.response(false, 'Error: model is type of undefined  : (');
         });
     }
+    getPizzas() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const pizzas = this.getTable('PIZZAs');
+            if (typeof pizzas != 'undefined') {
+                return yield pizzas.findAll()
+                    .then((data) => this.response(true, 'Todas as pizzas', data))
+                    .catch((error) => this.response(false, error.name));
+            }
+            return this.response(false, 'Error: model is type of undefined  : (');
+        });
+    }
 }
 exports.AdminSelects = AdminSelects;

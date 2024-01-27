@@ -63,4 +63,16 @@ export class AdminSelects {
       }
       return this.response(false, 'Error: model is type of undefined  : (')
     }
-  }
+
+    public async getPizzas()  {
+      const pizzas = this.getTable('PIZZAs')
+      if(typeof pizzas != 'undefined')
+      { 
+        return await pizzas.findAll()
+        .then((data) => this.response(true, 'Todas as pizzas', data) )
+        .catch((error : Error) => this.response(false, error.name))
+  
+      }
+      return this.response(false, 'Error: model is type of undefined  : (')
+    }
+}

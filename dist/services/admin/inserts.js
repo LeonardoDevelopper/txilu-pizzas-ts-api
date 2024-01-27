@@ -1,4 +1,13 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AdminInserts = void 0;
 const server_1 = require("../../server/server");
@@ -104,32 +113,40 @@ class AdminInserts {
         }
         return this.response(false, "Error: model is type of undefined  : (");
     }
-    create_pizza(name, photo, price, status, categoryId, igredients) {
-        const pizzas = this.getTable("PIZZAs");
-        const igredient = this.getTable('IGREDIENTs');
-        if (typeof pizzas != 'undefined' && typeof igredient != 'undefined') {
-            const pizzaID = this.UUID();
-            pizzas.create({
-                ID: pizzaID,
-                NAME: name,
-                PHOTO: photo,
-                PRICE: price,
-                STATUS: status,
-                CATEGORYID: categoryId
-            }).then().catch((error) => { this.objResponse = this.response(false, error.message); });
-            pizzas.addHook('afterCreate', (pizza) => {
-                igredients.forEach((igre) => {
-                    igredient.create({ ID: this.UUID(), NAME: igre, PIZZAID: pizza.dataValues.ID })
-                        .then(() => { this.objResponse = this.response(false, 'Pizza created'); })
-                        .catch((error) => { this.objResponse = this.response(false, error.message); });
+    create_pizza(name, photo, price, status, categoryId, desc, igredients) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const pizzas = this.getTable("PIZZAs");
+            const igredient = this.getTable('IGREDIENTs');
+            var res;
+            if (typeof pizzas != 'undefined' && typeof igredient != 'undefined') {
+                res = yield pizzas.create({
+                    ID: randomUUID(),
+                    NAME: name,
+                    PHOTO: photo,
+                    PRICE: price,
+                    DESC: desc,
+                    STATUS: status,
+                    CATEGORYID: categoryId
+                }).then(() => this.response(true, 'Pizza created'))
+                    .catch((error) => error //this.response(false, error.message)
+                );
+                pizzas.addHook('afterCreate', (pizza) => {
+                    igredients.forEach((igre) => {
+                        igredient.create({ ID: this.UUID(), NAME: igre, PIZZAID: pizza.dataValues.ID })
+                            .then(() => {
+                            res = this.response(true, 'Pizza created');
+                        })
+                            .catch((error) => {
+                            res = error; //this.response(false, error.message)
+                        });
+                    });
                 });
-            });
-        }
-        else {
-            this.objResponse = this.response(false, 'Models type is undefined');
-        }
-        // possivel bug
-        return this.objResponse;
+            }
+            else {
+                res = this.response(false, 'Models type is undefined');
+            }
+            return res;
+        });
     }
 }
 exports.AdminInserts = AdminInserts;
