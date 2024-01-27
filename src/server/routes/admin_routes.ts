@@ -8,19 +8,9 @@ import path from 'path'
 import multer from 'multer'
 
 import { webViewURL } from '../api/google_drive'
+import Storage from '../api/storage';
 
-
-const storage = multer.diskStorage({
-  destination : function(req, file, cb){
-    cb(null, 'uploads/')
-
-  },
-  filename : function(req, file, cb){
-    cb(null, randomUUID() + path.extname(file.originalname))
-    console.log(req)
-  }
-})
-const upload = multer({storage : storage})
+const up = new Storage('pizzas', randomUUID())
 
 export function admin_routes() {
   const admin = new Admin;
@@ -41,8 +31,8 @@ export function admin_routes() {
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-          user: 'leonardodevelopper924@gmail.com',
-          pass: 'ryqc deln jegw ynko',
+          user: 'txilupizzaslda@gmail.com',
+          pass: 'etde jdmp ipmt ydbo ',
       },
     });
 
@@ -106,11 +96,13 @@ Server.routes().get('/',  async (req : Request, res : Response ) => {
     res.json(dbResponse);
   })
 
-  Server.routes().post('/admin/inserts/create-pizza', upload.single('photo'),  async (req : Request, res : Response ) => {
+  Server.routes().post('/admin/inserts/create-pizza', up.setFile.single('photo'),  async (req : Request, res : Response ) => {
     console.log(req.body);
-    const { name, photo, price, status, category, igredients } = req.body.data ;
-    const dbResponse = await admin.inserts.create_pizza(id, name, photo ,price, status, category, igredients)
-    res.json(dbResponse);
+    console.log(up.getId())
+    console.log(up.createPath())
+     //const { name, price, status, category, igredients } = req.body.data ;
+    // const dbResponse = await admin.inserts.create_pizza(id, name, photo ,price, status, category)
+    // res.json(dbResponse);
 
 
   })
@@ -124,9 +116,9 @@ Server.routes().get('/',  async (req : Request, res : Response ) => {
   })
 
   Server.routes().get('/admin/selects/get-categories',  async (req : Request, res : Response ) => {
-    // console.log(req.body)
+    console.log(req.body)
     const dbResponse = await admin.selects.getCategories()
-    // console.log(dbResponse)
+    console.log(dbResponse)
      res.json(dbResponse);
   })
   

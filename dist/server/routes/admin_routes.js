@@ -17,19 +17,9 @@ const express_1 = require("express");
 const admin_1 = require("../../services/class/admin");
 const server_1 = require("../server");
 const crypto_1 = require("crypto");
-const path_1 = __importDefault(require("path"));
-const multer_1 = __importDefault(require("multer"));
 const google_drive_1 = require("../api/google_drive");
-const storage = multer_1.default.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, 'uploads/');
-    },
-    filename: function (req, file, cb) {
-        cb(null, (0, crypto_1.randomUUID)() + path_1.default.extname(file.originalname));
-        console.log(req);
-    }
-});
-const upload = (0, multer_1.default)({ storage: storage });
+const storage_1 = __importDefault(require("../api/storage"));
+const up = new storage_1.default('pizzas', (0, crypto_1.randomUUID)());
 function admin_routes() {
     const admin = new admin_1.Admin;
     server_1.Server.routes().post('/admin/inserts/create-account', (req, res) => __awaiter(this, void 0, void 0, function* () {
@@ -46,8 +36,8 @@ function admin_routes() {
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                user: 'leonardodevelopper924@gmail.com',
-                pass: 'ryqc deln jegw ynko',
+                user: 'txilupizzaslda@gmail.com',
+                pass: 'etde jdmp ipmt ydbo ',
             },
         });
         // Opções do e-mail
@@ -97,11 +87,13 @@ function admin_routes() {
         const dbResponse = yield admin.inserts.create_pizza_category(name);
         res.json(dbResponse);
     }));
-    server_1.Server.routes().post('/admin/inserts/create-pizza', upload.single('photo'), (req, res) => __awaiter(this, void 0, void 0, function* () {
+    server_1.Server.routes().post('/admin/inserts/create-pizza', up.setFile.single('photo'), (req, res) => __awaiter(this, void 0, void 0, function* () {
         console.log(req.body);
-        const { name, photo, price, status, category, igredients } = req.body.data;
-        const dbResponse = yield admin.inserts.create_pizza(id, name, photo, price, status, category, igredients);
-        res.json(dbResponse);
+        console.log(up.getId());
+        console.log(up.createPath());
+        //const { name, price, status, category, igredients } = req.body.data ;
+        // const dbResponse = await admin.inserts.create_pizza(id, name, photo ,price, status, category)
+        // res.json(dbResponse);
     }));
     server_1.Server.routes().post('/admin/selects/get-account', (req, res) => __awaiter(this, void 0, void 0, function* () {
         const { any, password } = req.body.data;
@@ -111,9 +103,9 @@ function admin_routes() {
         res.json(dbResponse);
     }));
     server_1.Server.routes().get('/admin/selects/get-categories', (req, res) => __awaiter(this, void 0, void 0, function* () {
-        // console.log(req.body)
+        console.log(req.body);
         const dbResponse = yield admin.selects.getCategories();
-        // console.log(dbResponse)
+        console.log(dbResponse);
         res.json(dbResponse);
     }));
 }
