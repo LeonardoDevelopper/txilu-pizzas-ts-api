@@ -7,22 +7,8 @@ function buildClient(reference) {
             type: sequelize_1.DataTypes.UUID,
             primaryKey: true
         },
-        FIRST_NAME: {
-            type: sequelize_1.DataTypes.STRING(15),
-            allowNull: false,
-            validate: {
-                isAlpha: true
-            }
-        },
-        LAST_NAME: {
-            type: sequelize_1.DataTypes.STRING(15),
-            allowNull: false,
-            validate: {
-                isAlpha: true
-            }
-        },
         EMAIL: {
-            type: sequelize_1.DataTypes.STRING(25),
+            type: sequelize_1.DataTypes.STRING(55),
             allowNull: false,
             unique: true,
             validate: {

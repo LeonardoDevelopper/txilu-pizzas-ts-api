@@ -30,14 +30,13 @@ class AdminUpdates {
     reset_password(email, password) {
         const admin = this.getTable('ADMINs');
         if (typeof admin != 'undefined') {
-            return admin.update({
-                PASSWORD: password
-            }, { where: { EMAIL: email } })
+            return admin.update({ PASS_WORD: password }, { where: { EMAIL: email } })
                 .then(() => {
-                this.response(true, 'senha alterada com sucesso!');
+                return this.response(true, 'senha alterada com sucesso!');
             })
                 .catch((error) => {
-                this.response(false, error.name);
+                console.log(error.name);
+                return this.response(false, error.message);
             });
         }
         return this.response(false, 'the type of model is undefined');

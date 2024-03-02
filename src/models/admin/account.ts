@@ -10,9 +10,6 @@ export default function buildAdmin(reference : Sequelize) : ModelCtor<Model<any,
         NAME: {
             type: DataTypes.STRING(25),
             allowNull: false,
-            validate: {
-                isAlpha: true
-            }
         },
         EMAIL:{
             type: DataTypes.STRING,

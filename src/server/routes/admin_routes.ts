@@ -10,8 +10,11 @@ import multer from 'multer'
 import { webViewURL } from '../api/google_drive'
 import Storage from '../api/storage';
 import Email from '../api/nodemail';
+import { middleWareUploadDeliver, middleWareUploadPizza } from '../middleware/uploadImg';
+import { customRequest } from '../interfaces';
 
 const uploadPizzas = new Storage('pizzas')
+const uploadDelivers = new Storage('delivers')
 
 export function admin_routes() {
   const admin = new Admin;
@@ -25,17 +28,13 @@ export function admin_routes() {
 
   Server.routes().post('/admin/request-reset-email',  async (req : Request, res : Response ) => {
 
+    const {email} = req.body
     const emailReset = new Email()
-    const emailResponse = emailReset.sendEmail('leonardodevelopper924@gmail.com', 'Redefinir senha', '<span>Recebemos o seu pedido de redefinição de senha acesse </span> <a href ="http://localhost:3000/adm/reset-password">Redefinir senha</a> <span>Para redefinir a sua senha</span>')
-    console.log(emailResponse)
-    res.json(emailReset)
-  })
-Server.routes().get('/',  async (req : Request, res : Response ) => {
+    const emailResponse = emailReset.sendEmail(email, 'Redefinir senha', '<span>Recebemos o seu pedido de redefinição de senha acesse </span> <a href ="http://localhost:3000/adm/reset-password">Redefinir senha</a> <span>Para redefinir a sua senha</span>')
+    res.json(await admin.selects.getEmail(email))
 
-  const result = await webViewURL('1vgiG-VCKRLT8hdRQGjviYRaV4Zq4UUAq')
-
-    res.send(`<img src ="${result.webViewLink}" />`);
   })
+
 
   Server.routes().post('/admin/inserts/reset-password',  async (req : Request, res : Response ) => {
     const { email, password } = req.body ;
@@ -53,13 +52,14 @@ Server.routes().get('/',  async (req : Request, res : Response ) => {
     res.json(dbResponse) 
   }) 
 
-  Server.routes().post('/admin/inserts/create-deliver-account', async (req : Request, res : Response ) => {
-    const { infoDeliver, infoCar } = req.body.data;
-    const dbResponse = await admin.inserts.create_deliver_account(
-      infoDeliver.id, infoDeliver.photo, infoDeliver.firstname, 
-      infoDeliver.lastname, infoDeliver.email, infoDeliver.phone, 
-       )
-    res.json(dbResponse)
+  Server.routes().post('/admin/inserts/create-deliver-account', middleWareUploadDeliver , async (req : customRequest, res : Response ) => {
+    console.log(req.body);
+    const  infoDeliver  = req.body;
+     const dbResponse = admin.inserts.create_deliver_account(req.URL_PHOTO, infoDeliver.firstname, 
+       infoDeliver.lastname, infoDeliver.email, infoDeliver.phone, 
+        )
+        console.log(await dbResponse)
+     res.json(dbResponse)
   })
 
   Server.routes().post('/admin/inserts/create-pizza-category',  async (req : Request, res : Response ) => {
@@ -68,15 +68,12 @@ Server.routes().get('/',  async (req : Request, res : Response ) => {
     res.json(dbResponse);
   })
 
-  Server.routes().post('/admin/inserts/create-pizza', uploadPizzas.setFile().single('photo'),  async (req : Request, res : Response ) => {
+  Server.routes().post('/admin/inserts/create-pizza', middleWareUploadPizza,  async (req : customRequest, res : Response ) => {
     console.log(req.body);
-    console.log()
     const { name, price, desc, category, igredients } = req.body ;
-    const dbResponse = await admin.inserts.create_pizza(name, uploadPizzas.createWebLinkView() ,price, 'Avaliable', category, desc, igredients.split(','))
-    console.log(dbResponse);
-     
+    const dbResponse = await admin.inserts.create_pizza(name, req.URL_PHOTO ,price, 'Avaliable', category, desc, igredients.split(','))
+    console.log(dbResponse)     
     res.json(dbResponse);
-
 
   })
 
@@ -100,4 +97,17 @@ Server.routes().get('/',  async (req : Request, res : Response ) => {
     console.log(dbResponse)
      res.json(dbResponse);
   })
+
+  Server.routes().get('/admin/selects/get-info-pizza/:id',  async (req : Request, res : Response ) => {
+    const dbResponse = await admin.selects.getPizzaInfo(req.params.id) //
+    console.log(dbResponse)
+     res.json(dbResponse);
+  })
+
+  Server.routes().delete('/admin/deletes/delete-pizza/:id', async (req : Request, res : Response ) => {
+    const dbResponse = await admin.deletes.delete_pizza(req.params.id) //
+    console.log(dbResponse)
+     res.json(dbResponse);
+  })
+
 }

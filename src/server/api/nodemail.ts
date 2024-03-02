@@ -5,7 +5,7 @@ export default class Email {
 
     private userEmail : string = 'txilupizzaslda@gmail.com'
     private userPassword : string = 'etde jdmp ipmt ydbo '
-    private response! : string;
+    private response : any;
 
     private transporter = nodemailer.createTransport({
       
@@ -36,11 +36,9 @@ export default class Email {
           };
           this.transporter.sendMail(mailOptions, (error : any, info : any) => {
             if (error) {
-                console.error('Erro ao enviar e-mail:', error);
-                this.response = 'Error ao enviar o email ' + error.message                
+                this.response = {OK: false, messageError: 'erro ao enviar o email'}            
             } else {
-                console.log('E-mail enviado:', info.response);
-                this.response = 'Recebemos o seu email'
+                this.response = {OK: true, message: 'Recebemos o seu email'}            
             }
           });
           return this.response

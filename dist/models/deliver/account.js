@@ -4,7 +4,7 @@ const sequelize_1 = require("sequelize");
 function buildDeliver(reference) {
     return reference.define('DELIVER', {
         ID: {
-            type: sequelize_1.DataTypes.STRING(25),
+            type: sequelize_1.DataTypes.STRING(36),
             primaryKey: true
         },
         PHOTO: {

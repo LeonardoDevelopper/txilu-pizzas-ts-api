@@ -10,9 +10,6 @@ function buildAdmin(reference) {
         NAME: {
             type: sequelize_1.DataTypes.STRING(25),
             allowNull: false,
-            validate: {
-                isAlpha: true
-            }
         },
         EMAIL: {
             type: sequelize_1.DataTypes.STRING,

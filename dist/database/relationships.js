@@ -11,7 +11,7 @@ function relationships() {
     CLIENT.hasMany(DELIVER_RATE, { constraints: true });
     CART.belongsTo(CLIENT, { constraints: true });
     CART.belongsTo(PIZZA, { constraints: true });
-    ORDER.belongsToMany(PIZZA_RATE, { through: ORDER_ITEMS, constraints: true });
+    ORDER.hasMany(ORDER_ITEMS, { constraints: true });
     ADMIN.hasOne(ADMIN_LOCATION, { constraints: true });
     PIZZA.belongsToMany(ORDER, { through: ORDER_ITEMS, constraints: true });
     PIZZA.hasMany(PIZZA_RATE, { constraints: true });

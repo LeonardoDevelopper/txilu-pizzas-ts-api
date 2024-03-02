@@ -52,6 +52,24 @@ export class AdminSelects {
     }
     return this.response(false, 'Error: model is type of undefined  : (')
   }
+
+  async getEmail(email : string )  {
+    const admins = this.getTable('ADMINs')
+    if(typeof admins != 'undefined')
+    { 
+      return await admins.findOne({
+        attributes : ['EMAIL'],
+        where: {
+          EMAIL: email
+        }
+      })
+      .then((data) => data ? this.response(true, 'Encontramos a sua conta ', data) : this.response(false, 'Não existe nenhum usuário com este Email'))
+      .catch((error : Error) => this.response(false, error.name))
+
+    }
+    return this.response(false, 'Error: model is type of undefined  : (')
+  }
+
   async getCategories()  {
       const categories = this.getTable('CATEGORies')
       if(typeof categories != 'undefined')
@@ -69,6 +87,20 @@ export class AdminSelects {
       if(typeof pizzas != 'undefined')
       { 
         return await pizzas.findAll()
+        .then((data) => this.response(true, 'Todas as pizzas', data) )
+        .catch((error : Error) => this.response(false, error.name))
+  
+      }
+      return this.response(false, 'Error: model is type of undefined  : (')
+    }
+
+    public async getPizzaInfo(id: string)  {
+      const pizzas = this.getTable('PIZZAs')
+      const igredients = this.getTable('IGREDIENTs')
+      const categories = this.getTable('CATEGORies')
+      if(typeof pizzas != 'undefined' && typeof igredients != 'undefined' && typeof categories != 'undefined')
+      { 
+        return await pizzas.findByPk(id, { include : [ categories, igredients]})
         .then((data) => this.response(true, 'Todas as pizzas', data) )
         .catch((error : Error) => this.response(false, error.name))
   

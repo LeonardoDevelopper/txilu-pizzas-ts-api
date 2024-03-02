@@ -72,30 +72,27 @@ class AdminInserts {
             return this.response(false, 'Error: model is type of undefined  : (');
         }
     }
-    create_deliver_account(ID, photo, firstname, lastname, email, phone) {
-        const deliver = this.getTable('DELIVERs');
-        const car = this.getTable('CARs');
-        const deliver_location = this.getTable('DELIVER_LOCATIONs');
-        if (typeof deliver != 'undefined' && typeof car != 'undefined' && typeof deliver_location != 'undefined') {
-            deliver.create({
-                ID: ID,
-                PHOTO: photo,
-                FIRST_NAME: firstname,
-                LAST_NAME: lastname,
-                EMAIL: email,
-                PHONE_NUMBER: phone
-            });
-            //necessita tratamento de erro!
-            deliver.addHook('afterCreate', (deliver) => {
-                deliver_location.create({
-                    ID: this.UUID(),
-                    LAT: 0,
-                    LON: 0,
-                    DELIVERID: deliver.dataValues.ID,
-                });
-            });
-        }
-        return this.response(false, 'Error: model is type of undefined  : (');
+    create_deliver_account(photo, firstname, lastname, email, phone) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const deliver = this.getTable('DELIVERs');
+            const deliver_location = this.getTable('DELIVER_LOCATIONs');
+            if (typeof deliver != 'undefined' && typeof deliver_location != 'undefined') {
+                return deliver.create({
+                    ID: randomUUID(),
+                    PHOTO: photo,
+                    FIRST_NAME: firstname,
+                    LAST_NAME: lastname,
+                    EMAIL: email,
+                    PHONE_NUMBER: phone
+                }).then(() => {
+                    return this.response(true, 'Entregador Cadastrado com sucesso');
+                })
+                    .catch((error) => this.response(false, error.message));
+            }
+            else {
+                return this.response(false, 'Error: model is type of undefined  : (');
+            }
+        });
     }
     create_pizza_category(name) {
         const category = this.getTable("CATEGORies");
@@ -119,7 +116,7 @@ class AdminInserts {
             const igredient = this.getTable('IGREDIENTs');
             var res;
             if (typeof pizzas != 'undefined' && typeof igredient != 'undefined') {
-                res = yield pizzas.create({
+                return yield pizzas.create({
                     ID: randomUUID(),
                     NAME: name,
                     PHOTO: photo,
@@ -127,25 +124,25 @@ class AdminInserts {
                     DESC: desc,
                     STATUS: status,
                     CATEGORYID: categoryId
-                }).then(() => this.response(true, 'Pizza created'))
-                    .catch((error) => error //this.response(false, error.message)
-                );
-                pizzas.addHook('afterCreate', (pizza) => {
-                    igredients.forEach((igre) => {
-                        igredient.create({ ID: this.UUID(), NAME: igre, PIZZAID: pizza.dataValues.ID })
-                            .then(() => {
-                            res = this.response(true, 'Pizza created');
-                        })
-                            .catch((error) => {
-                            res = error; //this.response(false, error.message)
+                }).then(() => {
+                    pizzas.addHook('afterCreate', (pizza) => {
+                        igredients.forEach((igre) => {
+                            igredient.create({ ID: this.UUID(), NAME: igre, PIZZAID: pizza.dataValues.ID })
+                                .then(() => {
+                                res = this.response(true, 'Pizza created');
+                            })
+                                .catch((error) => {
+                                res = error; //this.response(false, error.message)
+                            });
                         });
                     });
-                });
+                    return this.response(true, 'Pizza cadastrada com sucesso!');
+                })
+                    .catch((error) => this.response(false, error.message));
             }
             else {
-                res = this.response(false, 'Models type is undefined');
+                return this.response(false, 'Models type is undefined');
             }
-            return res;
         });
     }
 }

@@ -4,7 +4,7 @@ export default function buildDeliver(reference : Sequelize) : ModelCtor<Model<an
  {
     return reference.define('DELIVER', {
     ID: {
-        type: DataTypes.STRING(25),
+        type: DataTypes.STRING(36),
         primaryKey: true
     },
     PHOTO: {

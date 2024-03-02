@@ -81,35 +81,35 @@ export class AdminInserts {
     }
   }
 
-  public create_deliver_account(
-    ID : string, photo : URL, 
+  public async create_deliver_account(
+     photo : string, 
     firstname: string, lastname: string, 
     email: string, phone: number, 
     )  {
     const deliver = this.getTable('DELIVERs')
-    const car =this.getTable('CARs')
     const deliver_location = this.getTable('DELIVER_LOCATIONs')
-    if (typeof deliver != 'undefined' && typeof car != 'undefined' && typeof deliver_location != 'undefined')
+    if (typeof deliver != 'undefined' && typeof deliver_location != 'undefined')
     {
-      deliver.create({
-        ID : ID,
+      return deliver.create({
+        ID : randomUUID(),
         PHOTO: photo,
         FIRST_NAME: firstname,
         LAST_NAME : lastname,
         EMAIL: email,
         PHONE_NUMBER : phone
-      })
-      //necessita tratamento de erro!
-      deliver.addHook('afterCreate', (deliver) => {
-        deliver_location.create({
-          ID: this.UUID(),
-          LAT: 0,
-          LON: 0,
-          DELIVERID: deliver.dataValues.ID,
-        }) 
-      })
+      }).then(() => 
+      {
+        
+        return this.response(true, 'Entregador Cadastrado com sucesso')
+
+      })      
+      .catch((error : Error) => this.response(false, error.message))
     }
-    return this.response(false, 'Error: model is type of undefined  : (')
+    else
+    {
+      return this.response(false, 'Error: model is type of undefined  : (')
+
+    }
   }
 
   public create_pizza_category(name : string) 
@@ -139,7 +139,7 @@ export class AdminInserts {
 
     if (typeof pizzas != 'undefined' &&  typeof igredient != 'undefined')
     {
-        res = await pizzas.create({
+        return await pizzas.create({
           ID: randomUUID(),
           NAME: name,
           PHOTO: photo,
@@ -147,25 +147,28 @@ export class AdminInserts {
           DESC : desc,
           STATUS: status,
           CATEGORYID : categoryId
-        }).then(() => this.response(true, 'Pizza created'))
-        .catch((error : Error) => error //this.response(false, error.message)
-        )
+        }).then(() => {
 
-        pizzas.addHook('afterCreate', (pizza) => {
-          igredients.forEach((igre) => {
-            igredient.create({ ID: this.UUID(), NAME: igre, PIZZAID: pizza.dataValues.ID})
-            .then(( ) => {
-              res = this.response(true, 'Pizza created')
-            })
-            .catch((error : Error) => {
-              res = error //this.response(false, error.message)
+          pizzas.addHook('afterCreate', (pizza) => {
+            igredients.forEach((igre) => {
+              igredient.create({ ID: this.UUID(), NAME: igre, PIZZAID: pizza.dataValues.ID})
+              .then(( ) => {
+                res = this.response(true, 'Pizza created')
+              })
+              .catch((error : Error) => {
+                res = error //this.response(false, error.message)
+              })
             })
           })
+          return this.response(true, 'Pizza cadastrada com sucesso!')
         })
+        .catch((error : Error) => this.response(false, error.message)
+        )
+
+        
     }else{
-      res = this.response(false, 'Models type is undefined')
+      return this.response(false, 'Models type is undefined')
     }
-    return res;
   }
   
 }  

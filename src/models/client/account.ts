@@ -7,22 +7,8 @@ export default function buildClient(reference : Sequelize) : ModelCtor<Model<any
         type: DataTypes.UUID,
         primaryKey: true
     },
-    FIRST_NAME: {
-        type: DataTypes.STRING(15),
-        allowNull: false,
-        validate : {
-            isAlpha : true
-        }
-    },
-    LAST_NAME: {
-        type: DataTypes.STRING(15),
-        allowNull: false,
-        validate : {
-            isAlpha : true
-        }
-    },
     EMAIL:{
-        type: DataTypes.STRING(25),
+        type: DataTypes.STRING(55),
         allowNull: false,
         unique: true,
         validate : {

@@ -8,17 +8,17 @@ export default function buildOrder(reference : Sequelize) : ModelCtor<Model<any,
         primaryKey: true,
     },
     LAT: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.DOUBLE,
         allowNull: false
 
     },
     LON:{
-        type: DataTypes.INTEGER,
+        type: DataTypes.DOUBLE,
         allowNull: false
 
     },
     DISTANCE: {
-        type: DataTypes.DOUBLE(1,1),
+        type: DataTypes.DOUBLE,
         allowNull: false
     },
     TIME: {

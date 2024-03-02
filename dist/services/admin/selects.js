@@ -56,6 +56,22 @@ class AdminSelects {
             return this.response(false, 'Error: model is type of undefined  : (');
         });
     }
+    getEmail(email) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const admins = this.getTable('ADMINs');
+            if (typeof admins != 'undefined') {
+                return yield admins.findOne({
+                    attributes: ['EMAIL'],
+                    where: {
+                        EMAIL: email
+                    }
+                })
+                    .then((data) => data ? this.response(true, 'Encontramos a sua conta ', data) : this.response(false, 'Não existe nenhum usuário com este Email'))
+                    .catch((error) => this.response(false, error.name));
+            }
+            return this.response(false, 'Error: model is type of undefined  : (');
+        });
+    }
     getCategories() {
         return __awaiter(this, void 0, void 0, function* () {
             const categories = this.getTable('CATEGORies');
@@ -72,6 +88,19 @@ class AdminSelects {
             const pizzas = this.getTable('PIZZAs');
             if (typeof pizzas != 'undefined') {
                 return yield pizzas.findAll()
+                    .then((data) => this.response(true, 'Todas as pizzas', data))
+                    .catch((error) => this.response(false, error.name));
+            }
+            return this.response(false, 'Error: model is type of undefined  : (');
+        });
+    }
+    getPizzaInfo(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const pizzas = this.getTable('PIZZAs');
+            const igredients = this.getTable('IGREDIENTs');
+            const categories = this.getTable('CATEGORies');
+            if (typeof pizzas != 'undefined' && typeof igredients != 'undefined' && typeof categories != 'undefined') {
+                return yield pizzas.findByPk(id, { include: [categories, igredients] })
                     .then((data) => this.response(true, 'Todas as pizzas', data))
                     .catch((error) => this.response(false, error.name));
             }

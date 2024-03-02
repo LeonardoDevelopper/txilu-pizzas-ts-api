@@ -26,7 +26,8 @@ export default function relationships () : void {
   CART.belongsTo(PIZZA, {constraints: true})
 
 
-  ORDER.belongsToMany(PIZZA_RATE, {through: ORDER_ITEMS, constraints: true})
+  ORDER.hasMany(ORDER_ITEMS, {constraints: true})
+
   
   ADMIN.hasOne(ADMIN_LOCATION, {constraints: true})
   

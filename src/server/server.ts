@@ -1,6 +1,9 @@
 import { Dialect, Model, ModelCtor, Sequelize, SyncOptions } from 'sequelize';
 import { DataBase } from '../database/database';
 import { Response, Router, Request } from 'express';
+import cors from 'cors';
+import path from 'path'
+
 export type Force = {force: boolean} | null;
 export type Protocol = 'localhost' | 'http' | 'https';
 export class Server {
@@ -23,12 +26,11 @@ export class Server {
       Server.starter.use(Server.express.json());
       Server.starter.use(Server.express.urlencoded({extended: false}))
       Server.starter.use('/uploads', Server.express.static('uploads'))
-      Server.starter.use((req : Request, res : Response, next : any) => {
-        res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000' ); // Defina o domínio do front-end (Next.js)
-        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-        res.setHeader('Access-Control-Allow-Headers', 'Content-Type'); 
-        next();
-    }); 
+      Server.starter.set('views', path.resolve(__dirname, '../../src/server/html'));
+      Server.starter.use('/html', Server.express.static('html'))
+
+      Server.starter.use(cors()) 
+       Server.starter.set('view engine', 'ejs');
       console.log('\x1b[32m%s\x1b[0m',"[config] : server config loaded : )")
     } catch (error) {
       console.log('\x1b[31m%s\x1b[0m', '[error] : server config cannot be loaded : (')

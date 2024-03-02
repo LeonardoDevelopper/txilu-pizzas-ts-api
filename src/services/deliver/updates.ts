@@ -26,22 +26,30 @@ export class DeliverUpdates {
      }
     }
    }
-  account(id: string, username: string, password: string) {
+  public async account(id: string, username: string, password: string) {
     const deliver = this.getTable('DELIVERs')
     if(typeof deliver != 'undefined') {
 
-      return deliver.update({
+      return await deliver.update({
         USERNAME: username,
         PASS_WORD: password
       },
       {
         where: {ID : id }
       })
-      .then(() => {
-        return this.response(true, 'Deliver account updated : )')
+      .then(([rows]) => {
+        if(rows > 0)
+        {
+          return this.response(true, 'Deliver account updated : )')
+
+        }
+        else{
+          return this.response(false, 'Não conseguimos encontrar este ID')
+
+        }
       })
       .catch((error : Error) => {
-        return this.response(false, 'error updating delver account '+ error.message)
+        return this.response(false, 'error updating deliver account '+ error.message)
       })
     }
     else
@@ -55,14 +63,13 @@ export class DeliverUpdates {
     if(typeof deliver_location != 'undefined') {
 
       return deliver_location.update({
-        ID: this.UUID(),
         LAT : lat,
         LON : lon
       },
       {
         where: {DELIVERID : id }
       })
-      .then(() => {
+      .then(([rowsEfected]) => {
         return this.response(true, 'Deliver location updated : )')
       })
       .catch((error : Error) => {

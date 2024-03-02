@@ -15,10 +15,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.admin_routes = void 0;
 const admin_1 = require("../../services/class/admin");
 const server_1 = require("../server");
-const google_drive_1 = require("../api/google_drive");
 const storage_1 = __importDefault(require("../api/storage"));
 const nodemail_1 = __importDefault(require("../api/nodemail"));
+const uploadImg_1 = require("../middleware/uploadImg");
 const uploadPizzas = new storage_1.default('pizzas');
+const uploadDelivers = new storage_1.default('delivers');
 function admin_routes() {
     const admin = new admin_1.Admin;
     server_1.Server.routes().post('/admin/inserts/create-account', (req, res) => __awaiter(this, void 0, void 0, function* () {
@@ -28,14 +29,10 @@ function admin_routes() {
         res.json(dbResponse);
     }));
     server_1.Server.routes().post('/admin/request-reset-email', (req, res) => __awaiter(this, void 0, void 0, function* () {
+        const { email } = req.body;
         const emailReset = new nodemail_1.default();
-        const emailResponse = emailReset.sendEmail('leonardodevelopper924@gmail.com', 'Redefinir senha', '<span>Recebemos o seu pedido de redefinição de senha acesse </span> <a href ="http://localhost:3000/adm/reset-password">Redefinir senha</a> <span>Para redefinir a sua senha</span>');
-        console.log(emailResponse);
-        res.json(emailReset);
-    }));
-    server_1.Server.routes().get('/', (req, res) => __awaiter(this, void 0, void 0, function* () {
-        const result = yield (0, google_drive_1.webViewURL)('1vgiG-VCKRLT8hdRQGjviYRaV4Zq4UUAq');
-        res.send(`<img src ="${result.webViewLink}" />`);
+        const emailResponse = emailReset.sendEmail(email, 'Redefinir senha', '<span>Recebemos o seu pedido de redefinição de senha acesse </span> <a href ="http://localhost:3000/adm/reset-password">Redefinir senha</a> <span>Para redefinir a sua senha</span>');
+        res.json(yield admin.selects.getEmail(email));
     }));
     server_1.Server.routes().post('/admin/inserts/reset-password', (req, res) => __awaiter(this, void 0, void 0, function* () {
         const { email, password } = req.body;
@@ -51,9 +48,11 @@ function admin_routes() {
         console.log(dbResponse);
         res.json(dbResponse);
     }));
-    server_1.Server.routes().post('/admin/inserts/create-deliver-account', (req, res) => __awaiter(this, void 0, void 0, function* () {
-        const { infoDeliver, infoCar } = req.body.data;
-        const dbResponse = yield admin.inserts.create_deliver_account(infoDeliver.id, infoDeliver.photo, infoDeliver.firstname, infoDeliver.lastname, infoDeliver.email, infoDeliver.phone);
+    server_1.Server.routes().post('/admin/inserts/create-deliver-account', uploadImg_1.middleWareUploadDeliver, (req, res) => __awaiter(this, void 0, void 0, function* () {
+        console.log(req.body);
+        const infoDeliver = req.body;
+        const dbResponse = admin.inserts.create_deliver_account(req.URL_PHOTO, infoDeliver.firstname, infoDeliver.lastname, infoDeliver.email, infoDeliver.phone);
+        console.log(yield dbResponse);
         res.json(dbResponse);
     }));
     server_1.Server.routes().post('/admin/inserts/create-pizza-category', (req, res) => __awaiter(this, void 0, void 0, function* () {
@@ -61,11 +60,10 @@ function admin_routes() {
         const dbResponse = yield admin.inserts.create_pizza_category(name);
         res.json(dbResponse);
     }));
-    server_1.Server.routes().post('/admin/inserts/create-pizza', uploadPizzas.setFile().single('photo'), (req, res) => __awaiter(this, void 0, void 0, function* () {
+    server_1.Server.routes().post('/admin/inserts/create-pizza', uploadImg_1.middleWareUploadPizza, (req, res) => __awaiter(this, void 0, void 0, function* () {
         console.log(req.body);
-        console.log();
         const { name, price, desc, category, igredients } = req.body;
-        const dbResponse = yield admin.inserts.create_pizza(name, uploadPizzas.createWebLinkView(), price, 'Avaliable', category, desc, igredients.split(','));
+        const dbResponse = yield admin.inserts.create_pizza(name, req.URL_PHOTO, price, 'Avaliable', category, desc, igredients.split(','));
         console.log(dbResponse);
         res.json(dbResponse);
     }));
@@ -84,6 +82,16 @@ function admin_routes() {
     }));
     server_1.Server.routes().get('/admin/selects/get-pizzas', (req, res) => __awaiter(this, void 0, void 0, function* () {
         const dbResponse = yield admin.selects.getPizzas();
+        console.log(dbResponse);
+        res.json(dbResponse);
+    }));
+    server_1.Server.routes().get('/admin/selects/get-info-pizza/:id', (req, res) => __awaiter(this, void 0, void 0, function* () {
+        const dbResponse = yield admin.selects.getPizzaInfo(req.params.id); //
+        console.log(dbResponse);
+        res.json(dbResponse);
+    }));
+    server_1.Server.routes().delete('/admin/deletes/delete-pizza/:id', (req, res) => __awaiter(this, void 0, void 0, function* () {
+        const dbResponse = yield admin.deletes.delete_pizza(req.params.id); //
         console.log(dbResponse);
         res.json(dbResponse);
     }));

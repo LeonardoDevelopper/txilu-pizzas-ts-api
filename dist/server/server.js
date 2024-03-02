@@ -8,9 +8,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Server = void 0;
 const database_1 = require("../database/database");
+const cors_1 = __importDefault(require("cors"));
+const path_1 = __importDefault(require("path"));
 class Server {
     // buillding properties  
     constructor(port, protocol) {
@@ -24,12 +29,10 @@ class Server {
             Server.starter.use(Server.express.json());
             Server.starter.use(Server.express.urlencoded({ extended: false }));
             Server.starter.use('/uploads', Server.express.static('uploads'));
-            Server.starter.use((req, res, next) => {
-                res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000'); // Defina o domínio do front-end (Next.js)
-                res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-                res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-                next();
-            });
+            Server.starter.set('views', path_1.default.resolve(__dirname, '../../src/server/html'));
+            Server.starter.use('/html', Server.express.static('html'));
+            Server.starter.use((0, cors_1.default)());
+            Server.starter.set('view engine', 'ejs');
             console.log('\x1b[32m%s\x1b[0m', "[config] : server config loaded : )");
         }
         catch (error) {
